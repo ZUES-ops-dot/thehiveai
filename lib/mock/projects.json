@@ -1,0 +1,82 @@
+[
+  {
+    "id": "1",
+    "name": "Jupiter",
+    "symbol": "JUP",
+    "logo": null,
+    "mentionCount": 45600,
+    "sentiment": 0.72,
+    "velocity": [120, 145, 180, 210, 320, 450, 520, 480, 510, 620],
+    "category": "DEX"
+  },
+  {
+    "id": "2",
+    "name": "Marinade",
+    "symbol": "MNDE",
+    "logo": null,
+    "mentionCount": 12300,
+    "sentiment": 0.45,
+    "velocity": [80, 95, 88, 102, 115, 108, 125, 140, 135, 150],
+    "category": "Liquid Staking"
+  },
+  {
+    "id": "3",
+    "name": "Jito",
+    "symbol": "JTO",
+    "logo": null,
+    "mentionCount": 28900,
+    "sentiment": 0.58,
+    "velocity": [200, 180, 220, 280, 350, 420, 380, 410, 450, 520],
+    "category": "MEV"
+  },
+  {
+    "id": "4",
+    "name": "Bonk",
+    "symbol": "BONK",
+    "logo": null,
+    "mentionCount": 89500,
+    "sentiment": 0.35,
+    "velocity": [500, 620, 580, 720, 850, 780, 920, 1100, 980, 1250],
+    "category": "Memecoin"
+  },
+  {
+    "id": "5",
+    "name": "Tensor",
+    "symbol": "TNSR",
+    "logo": null,
+    "mentionCount": 15600,
+    "sentiment": 0.62,
+    "velocity": [90, 110, 125, 140, 165, 180, 195, 210, 230, 255],
+    "category": "NFT Marketplace"
+  },
+  {
+    "id": "6",
+    "name": "Raydium",
+    "symbol": "RAY",
+    "logo": null,
+    "mentionCount": 18200,
+    "sentiment": 0.48,
+    "velocity": [150, 145, 160, 175, 168, 185, 195, 188, 205, 220],
+    "category": "AMM"
+  },
+  {
+    "id": "7",
+    "name": "Pyth Network",
+    "symbol": "PYTH",
+    "logo": null,
+    "mentionCount": 21400,
+    "sentiment": 0.55,
+    "velocity": [180, 195, 210, 225, 240, 255, 270, 285, 300, 320],
+    "category": "Oracle"
+  },
+  {
+    "id": "8",
+    "name": "WEN",
+    "symbol": "WEN",
+    "logo": null,
+    "mentionCount": 56800,
+    "sentiment": -0.15,
+    "velocity": [800, 950, 1100, 1400, 1200, 980, 750, 620, 480, 350],
+    "category": "Memecoin"
+  }
+]

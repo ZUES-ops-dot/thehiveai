@@ -1,0 +1,69 @@
+{
+  "projectAccount": {
+    "id": "project-001",
+    "name": "Hive Labs",
+    "logo": null,
+    "totalFunded": 45000,
+    "activeNarratives": 3,
+    "totalMspGenerated": 892450,
+    "avgCostPerMsp": 0.05,
+    "createdAt": "2024-01-15T00:00:00Z"
+  },
+  "fundedNarratives": [
+    {
+      "narrativeId": "narrative-001",
+      "title": "AI Agents Take Over Research",
+      "funded": 8000,
+      "totalPool": 15000,
+      "mspGenerated": 234500,
+      "creatorsReached": 156,
+      "costPerMsp": 0.034,
+      "roi": 2.8,
+      "status": "active",
+      "daysRemaining": 12
+    },
+    {
+      "narrativeId": "narrative-002",
+      "title": "Solana Gaming Boom",
+      "funded": 10000,
+      "totalPool": 22000,
+      "mspGenerated": 456780,
+      "creatorsReached": 234,
+      "costPerMsp": 0.022,
+      "roi": 4.2,
+      "status": "active",
+      "daysRemaining": 18
+    },
+    {
+      "narrativeId": "narrative-004",
+      "title": "Liquid Staking Revolution",
+      "funded": 12000,
+      "totalPool": 25000,
+      "mspGenerated": 189450,
+      "creatorsReached": 98,
+      "costPerMsp": 0.063,
+      "roi": 1.5,
+      "status": "active",
+      "daysRemaining": 23
+    }
+  ],
+  "topCreators": [
+    { "id": "creator-002", "handle": "@defi_degen", "mspForProject": 67890, "narratives": 3 },
+    { "id": "creator-005", "handle": "@alpha_hunter", "mspForProject": 52340, "narratives": 2 },
+    { "id": "creator-001", "handle": "@solana_sage", "mspForProject": 45670, "narratives": 3 },
+    { "id": "creator-007", "handle": "@whale_watcher", "mspForProject": 34560, "narratives": 2 },
+    { "id": "creator-010", "handle": "@chain_champion", "mspForProject": 28900, "narratives": 1 }
+  ],
+  "recentActivity": [
+    { "type": "funding", "narrative": "AI Agents Take Over Research", "amount": 2000, "time": "2h ago" },
+    { "type": "creator", "creator": "@defi_degen", "msp": 1250, "narrative": "Solana Gaming Boom", "time": "4h ago" },
+    { "type": "milestone", "narrative": "Liquid Staking Revolution", "message": "Reached 100k MSP", "time": "6h ago" },
+    { "type": "funding", "narrative": "Solana Gaming Boom", "amount": 3000, "time": "1d ago" },
+    { "type": "creator", "creator": "@alpha_hunter", "msp": 890, "narrative": "AI Agents Take Over Research", "time": "1d ago" }
+  ],
+  "analytics": {
+    "weeklyMsp": [12000, 15000, 18000, 22000, 19000, 25000, 28000],
+    "weeklyCreators": [45, 52, 61, 78, 72, 89, 95],
+    "weeklyRoi": [1.2, 1.5, 1.8, 2.1, 1.9, 2.4, 2.8]
+  }
+}

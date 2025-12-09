@@ -1,0 +1,140 @@
+{
+  "narratives": [
+    {
+      "id": "narrative-001",
+      "title": "AI Agents Take Over Research",
+      "description": "The rise of autonomous AI agents transforming how we discover and analyze crypto alpha.",
+      "fundingTotal": 15000,
+      "sponsors": [
+        { "projectId": "proj-001", "name": "AgentFi", "amount": 8000 },
+        { "projectId": "proj-002", "name": "AutoGPT Labs", "amount": 4500 },
+        { "projectId": "proj-003", "name": "Neural Network DAO", "amount": 2500 }
+      ],
+      "distributionDate": "2024-12-15T00:00:00Z",
+      "momentumScore": 89,
+      "sentimentScore": 0.78,
+      "tags": ["AI", "Research", "Automation"],
+      "leaderboard": [],
+      "campaignId": "campaign-002"
+    },
+    {
+      "id": "narrative-002",
+      "title": "Solana Gaming Boom",
+      "description": "Gaming on Solana is exploding with new titles, NFT integrations, and play-to-earn mechanics.",
+      "fundingTotal": 22000,
+      "sponsors": [
+        { "projectId": "proj-004", "name": "Star Atlas", "amount": 10000 },
+        { "projectId": "proj-005", "name": "Aurory", "amount": 7000 },
+        { "projectId": "proj-006", "name": "Genopets", "amount": 5000 }
+      ],
+      "distributionDate": "2024-12-20T00:00:00Z",
+      "momentumScore": 95,
+      "sentimentScore": 0.92,
+      "tags": ["Gaming", "Solana", "NFT"],
+      "leaderboard": [],
+      "campaignId": "campaign-001"
+    },
+    {
+      "id": "narrative-003",
+      "title": "Meme Liquidity Wars",
+      "description": "Meme coins battling for liquidity dominance. Who will capture the degen mindshare?",
+      "fundingTotal": 18500,
+      "sponsors": [
+        { "projectId": "proj-007", "name": "BONK", "amount": 8500 },
+        { "projectId": "proj-008", "name": "WIF", "amount": 6000 },
+        { "projectId": "proj-009", "name": "POPCAT", "amount": 4000 }
+      ],
+      "distributionDate": "2024-12-10T00:00:00Z",
+      "momentumScore": 98,
+      "sentimentScore": 0.85,
+      "tags": ["Memes", "DeFi", "Liquidity"],
+      "leaderboard": [],
+      "campaignId": "campaign-005"
+    },
+    {
+      "id": "narrative-004",
+      "title": "Liquid Staking Revolution",
+      "description": "LSTs are reshaping DeFi composability. Jito, Marinade, and new players compete for TVL.",
+      "fundingTotal": 25000,
+      "sponsors": [
+        { "projectId": "proj-010", "name": "Jito", "amount": 12000 },
+        { "projectId": "proj-011", "name": "Marinade", "amount": 8000 },
+        { "projectId": "proj-012", "name": "Sanctum", "amount": 5000 }
+      ],
+      "distributionDate": "2024-12-25T00:00:00Z",
+      "momentumScore": 82,
+      "sentimentScore": 0.88,
+      "tags": ["Staking", "DeFi", "LST"],
+      "leaderboard": [],
+      "campaignId": "campaign-004"
+    },
+    {
+      "id": "narrative-005",
+      "title": "NFT Points Meta",
+      "description": "Points programs are the new meta. Tensor, Magic Eden, and others compete for trader loyalty.",
+      "fundingTotal": 12000,
+      "sponsors": [
+        { "projectId": "proj-013", "name": "Tensor", "amount": 6000 },
+        { "projectId": "proj-014", "name": "Magic Eden", "amount": 4000 },
+        { "projectId": "proj-015", "name": "Blur", "amount": 2000 }
+      ],
+      "distributionDate": "2024-12-18T00:00:00Z",
+      "momentumScore": 76,
+      "sentimentScore": 0.72,
+      "tags": ["NFT", "Points", "Trading"],
+      "leaderboard": [],
+      "campaignId": "campaign-004"
+    },
+    {
+      "id": "narrative-006",
+      "title": "Perpetuals on Solana",
+      "description": "Perp DEXs are heating up. Jupiter, Drift, and Zeta battle for derivatives dominance.",
+      "fundingTotal": 20000,
+      "sponsors": [
+        { "projectId": "proj-016", "name": "Jupiter", "amount": 9000 },
+        { "projectId": "proj-017", "name": "Drift", "amount": 7000 },
+        { "projectId": "proj-018", "name": "Zeta", "amount": 4000 }
+      ],
+      "distributionDate": "2024-12-22T00:00:00Z",
+      "momentumScore": 87,
+      "sentimentScore": 0.81,
+      "tags": ["Perps", "DeFi", "Trading"],
+      "leaderboard": [],
+      "campaignId": "campaign-005"
+    },
+    {
+      "id": "narrative-007",
+      "title": "RWA Tokenization Wave",
+      "description": "Real World Assets coming on-chain. Treasury bills, real estate, and commodities tokenized.",
+      "fundingTotal": 30000,
+      "sponsors": [
+        { "projectId": "proj-019", "name": "Ondo Finance", "amount": 15000 },
+        { "projectId": "proj-020", "name": "Maple Finance", "amount": 10000 },
+        { "projectId": "proj-021", "name": "Centrifuge", "amount": 5000 }
+      ],
+      "distributionDate": "2024-12-30T00:00:00Z",
+      "momentumScore": 72,
+      "sentimentScore": 0.90,
+      "tags": ["RWA", "Tokenization", "TradFi"],
+      "leaderboard": [],
+      "campaignId": "campaign-003"
+    },
+    {
+      "id": "narrative-008",
+      "title": "SocialFi Renaissance",
+      "description": "Social tokens, creator economies, and decentralized social platforms are back.",
+      "fundingTotal": 14000,
+      "sponsors": [
+        { "projectId": "proj-022", "name": "Friend.tech", "amount": 6000 },
+        { "projectId": "proj-023", "name": "Lens Protocol", "amount": 5000 },
+        { "projectId": "proj-024", "name": "Farcaster", "amount": 3000 }
+      ],
+      "distributionDate": "2024-12-12T00:00:00Z",
+      "momentumScore": 84,
+      "sentimentScore": 0.75,
+      "tags": ["Social", "Creator", "Web3"],
+      "leaderboard": [],
+      "campaignId": "campaign-004"
+    }
+  ]
+}

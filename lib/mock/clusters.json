@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "name": "DeFi Summer 2.0",
+    "keywords": ["yield", "farming", "airdrop", "points", "liquidity"],
+    "tweetCount": 12500,
+    "growth": 45.2,
+    "sentiment": 0.68,
+    "topAccounts": ["JupiterExchange", "MarinadeFinance", "jaborto"],
+    "narrativeId": "narrative-004"
+  },
+  {
+    "id": "2",
+    "name": "Memecoin Mania",
+    "keywords": ["bonk", "wen", "degen", "pump", "100x"],
+    "tweetCount": 89000,
+    "growth": 125.8,
+    "sentiment": 0.42,
+    "topAccounts": ["bonaborswap", "blknoiz06", "DegenSpartan"],
+    "narrativeId": "narrative-003"
+  },
+  {
+    "id": "3",
+    "name": "Firedancer Hype",
+    "keywords": ["firedancer", "jump", "validator", "performance", "tps"],
+    "tweetCount": 8900,
+    "growth": 78.3,
+    "sentiment": 0.85,
+    "topAccounts": ["aaboronkov", "JumpCrypto", "SolanaFndn"],
+    "narrativeId": null
+  },
+  {
+    "id": "4",
+    "name": "NFT Revival",
+    "keywords": ["nft", "mint", "collection", "art", "compressed"],
+    "tweetCount": 15600,
+    "growth": 32.1,
+    "sentiment": 0.52,
+    "topAccounts": ["tensor_hq", "MagicEden", "metaplex"],
+    "narrativeId": "narrative-005"
+  },
+  {
+    "id": "5",
+    "name": "Airdrop Szn",
+    "keywords": ["airdrop", "claim", "eligibility", "allocation", "farming"],
+    "tweetCount": 45000,
+    "growth": 210.5,
+    "sentiment": 0.75,
+    "topAccounts": ["JupiterExchange", "jabortoSOL", "aaboralytics"],
+    "narrativeId": "narrative-004"
+  },
+  {
+    "id": "6",
+    "name": "State Compression",
+    "keywords": ["compression", "cNFT", "merkle", "scale", "cheap"],
+    "tweetCount": 5600,
+    "growth": 56.7,
+    "sentiment": 0.78,
+    "topAccounts": ["0xMert_", "heaborusdev", "solana_devs"],
+    "narrativeId": null
+  }
+]

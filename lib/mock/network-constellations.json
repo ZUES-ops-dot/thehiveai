@@ -1,0 +1,110 @@
+{
+  "nodes": [
+    {"id": "creator:defi_degen", "type": "creator", "label": "@defi_degen", "tier": "overmind", "metrics": {"msp": 1456780, "followers": 125000, "activity": 98}, "cluster": "defi"},
+    {"id": "creator:alpha_hunter", "type": "creator", "label": "@alpha_hunter", "tier": "apex", "metrics": {"msp": 678900, "followers": 89000, "activity": 92}, "cluster": "trading"},
+    {"id": "creator:solana_sage", "type": "creator", "label": "@solana_sage", "tier": "apex", "metrics": {"msp": 892450, "followers": 156000, "activity": 88}, "cluster": "ecosystem"},
+    {"id": "creator:nft_ninja", "type": "creator", "label": "@nft_ninja", "tier": "echelon", "metrics": {"msp": 345670, "followers": 67000, "activity": 75}, "cluster": "nft"},
+    {"id": "creator:meme_lord", "type": "creator", "label": "@meme_lord", "tier": "lumina", "metrics": {"msp": 189450, "followers": 234000, "activity": 95}, "cluster": "memes"},
+    {"id": "creator:whale_watcher", "type": "creator", "label": "@whale_watcher", "tier": "echelon", "metrics": {"msp": 412340, "followers": 78000, "activity": 82}, "cluster": "trading"},
+    {"id": "creator:token_tactician", "type": "creator", "label": "@token_tactician", "tier": "lumina", "metrics": {"msp": 234560, "followers": 45000, "activity": 70}, "cluster": "defi"},
+    {"id": "creator:yield_yogi", "type": "creator", "label": "@yield_yogi", "tier": "echelon", "metrics": {"msp": 378900, "followers": 56000, "activity": 78}, "cluster": "defi"},
+    {"id": "creator:chain_champion", "type": "creator", "label": "@chain_champion", "tier": "apex", "metrics": {"msp": 567890, "followers": 98000, "activity": 85}, "cluster": "ecosystem"},
+    {"id": "creator:crypto_cat", "type": "creator", "label": "@crypto_cat", "tier": "prime", "metrics": {"msp": 45670, "followers": 12000, "activity": 45}, "cluster": "memes"},
+    {"id": "creator:gaming_guru", "type": "creator", "label": "@gaming_guru", "tier": "echelon", "metrics": {"msp": 289000, "followers": 67000, "activity": 80}, "cluster": "gaming"},
+    {"id": "creator:staking_stan", "type": "creator", "label": "@staking_stan", "tier": "lumina", "metrics": {"msp": 198000, "followers": 34000, "activity": 65}, "cluster": "defi"},
+    {"id": "creator:ai_agent_ace", "type": "creator", "label": "@ai_agent_ace", "tier": "apex", "metrics": {"msp": 512000, "followers": 87000, "activity": 90}, "cluster": "ai"},
+    {"id": "creator:perp_pro", "type": "creator", "label": "@perp_pro", "tier": "echelon", "metrics": {"msp": 345000, "followers": 56000, "activity": 78}, "cluster": "trading"},
+    {"id": "creator:nft_nomad", "type": "creator", "label": "@nft_nomad", "tier": "lumina", "metrics": {"msp": 167000, "followers": 45000, "activity": 60}, "cluster": "nft"},
+    {"id": "creator:rwa_researcher", "type": "creator", "label": "@rwa_researcher", "tier": "echelon", "metrics": {"msp": 267000, "followers": 38000, "activity": 72}, "cluster": "rwa"},
+    {"id": "creator:socialfi_savant", "type": "creator", "label": "@socialfi_savant", "tier": "lumina", "metrics": {"msp": 189000, "followers": 52000, "activity": 68}, "cluster": "social"},
+    {"id": "creator:bonk_believer", "type": "creator", "label": "@bonk_believer", "tier": "prime", "metrics": {"msp": 78000, "followers": 89000, "activity": 88}, "cluster": "memes"},
+    {"id": "creator:tensor_trader", "type": "creator", "label": "@tensor_trader", "tier": "echelon", "metrics": {"msp": 298000, "followers": 43000, "activity": 75}, "cluster": "nft"},
+    {"id": "creator:jito_junkie", "type": "creator", "label": "@jito_junkie", "tier": "lumina", "metrics": {"msp": 178000, "followers": 29000, "activity": 70}, "cluster": "defi"},
+
+    {"id": "narrative:ai-agents", "type": "narrative", "label": "AI Agents Take Over", "metrics": {"msp": 234500, "funding": 15000}, "cluster": "ai"},
+    {"id": "narrative:gaming-boom", "type": "narrative", "label": "Solana Gaming Boom", "metrics": {"msp": 456780, "funding": 22000}, "cluster": "gaming"},
+    {"id": "narrative:meme-wars", "type": "narrative", "label": "Meme Liquidity Wars", "metrics": {"msp": 389000, "funding": 18500}, "cluster": "memes"},
+    {"id": "narrative:lst-revolution", "type": "narrative", "label": "Liquid Staking Revolution", "metrics": {"msp": 312000, "funding": 25000}, "cluster": "defi"},
+    {"id": "narrative:nft-points", "type": "narrative", "label": "NFT Points Meta", "metrics": {"msp": 198000, "funding": 12000}, "cluster": "nft"},
+    {"id": "narrative:perps-heat", "type": "narrative", "label": "Perpetuals on Solana", "metrics": {"msp": 278000, "funding": 20000}, "cluster": "trading"},
+    {"id": "narrative:rwa-wave", "type": "narrative", "label": "RWA Tokenization Wave", "metrics": {"msp": 156000, "funding": 30000}, "cluster": "rwa"},
+    {"id": "narrative:socialfi", "type": "narrative", "label": "SocialFi Renaissance", "metrics": {"msp": 145000, "funding": 14000}, "cluster": "social"},
+
+    {"id": "project:bonk", "type": "project", "label": "BONK", "metrics": {"funding": 8500}, "cluster": "memes"},
+    {"id": "project:jito", "type": "project", "label": "Jito", "metrics": {"funding": 12000}, "cluster": "defi"},
+    {"id": "project:tensor", "type": "project", "label": "Tensor", "metrics": {"funding": 6000}, "cluster": "nft"},
+    {"id": "project:jupiter", "type": "project", "label": "Jupiter", "metrics": {"funding": 9000}, "cluster": "trading"},
+    {"id": "project:star-atlas", "type": "project", "label": "Star Atlas", "metrics": {"funding": 10000}, "cluster": "gaming"},
+    {"id": "project:ondo", "type": "project", "label": "Ondo Finance", "metrics": {"funding": 15000}, "cluster": "rwa"}
+  ],
+  "edges": [
+    {"source": "creator:defi_degen", "target": "narrative:lst-revolution", "type": "amplifies", "weight": 0.95, "timeseries": [{"t": "2025-11-20", "value": 45}, {"t": "2025-11-21", "value": 78}, {"t": "2025-11-22", "value": 92}]},
+    {"source": "creator:defi_degen", "target": "narrative:perps-heat", "type": "amplifies", "weight": 0.82, "timeseries": [{"t": "2025-11-20", "value": 34}, {"t": "2025-11-21", "value": 56}]},
+    {"source": "creator:defi_degen", "target": "creator:yield_yogi", "type": "collab", "weight": 0.78},
+    {"source": "creator:defi_degen", "target": "creator:alpha_hunter", "type": "collab", "weight": 0.85},
+    
+    {"source": "creator:alpha_hunter", "target": "narrative:perps-heat", "type": "amplifies", "weight": 0.92, "timeseries": [{"t": "2025-11-19", "value": 67}, {"t": "2025-11-20", "value": 89}, {"t": "2025-11-21", "value": 112}]},
+    {"source": "creator:alpha_hunter", "target": "narrative:lst-revolution", "type": "amplifies", "weight": 0.68},
+    {"source": "creator:alpha_hunter", "target": "creator:whale_watcher", "type": "collab", "weight": 0.72},
+    {"source": "creator:alpha_hunter", "target": "creator:perp_pro", "type": "collab", "weight": 0.88},
+    
+    {"source": "creator:solana_sage", "target": "narrative:gaming-boom", "type": "amplifies", "weight": 0.88, "timeseries": [{"t": "2025-11-18", "value": 56}, {"t": "2025-11-19", "value": 78}, {"t": "2025-11-20", "value": 95}]},
+    {"source": "creator:solana_sage", "target": "narrative:ai-agents", "type": "amplifies", "weight": 0.75},
+    {"source": "creator:solana_sage", "target": "creator:chain_champion", "type": "collab", "weight": 0.82},
+    {"source": "creator:solana_sage", "target": "creator:gaming_guru", "type": "collab", "weight": 0.65},
+    
+    {"source": "creator:nft_ninja", "target": "narrative:nft-points", "type": "amplifies", "weight": 0.94, "timeseries": [{"t": "2025-11-20", "value": 89}, {"t": "2025-11-21", "value": 112}]},
+    {"source": "creator:nft_ninja", "target": "creator:tensor_trader", "type": "collab", "weight": 0.85},
+    {"source": "creator:nft_ninja", "target": "creator:nft_nomad", "type": "collab", "weight": 0.72},
+    
+    {"source": "creator:meme_lord", "target": "narrative:meme-wars", "type": "amplifies", "weight": 0.98, "timeseries": [{"t": "2025-11-19", "value": 156}, {"t": "2025-11-20", "value": 234}, {"t": "2025-11-21", "value": 312}]},
+    {"source": "creator:meme_lord", "target": "creator:bonk_believer", "type": "collab", "weight": 0.92},
+    {"source": "creator:meme_lord", "target": "creator:crypto_cat", "type": "collab", "weight": 0.68},
+    
+    {"source": "creator:whale_watcher", "target": "narrative:perps-heat", "type": "amplifies", "weight": 0.78},
+    {"source": "creator:whale_watcher", "target": "narrative:lst-revolution", "type": "amplifies", "weight": 0.65},
+    
+    {"source": "creator:ai_agent_ace", "target": "narrative:ai-agents", "type": "amplifies", "weight": 0.96, "timeseries": [{"t": "2025-11-17", "value": 45}, {"t": "2025-11-18", "value": 89}, {"t": "2025-11-19", "value": 145}, {"t": "2025-11-20", "value": 198}]},
+    {"source": "creator:ai_agent_ace", "target": "creator:solana_sage", "type": "collab", "weight": 0.75},
+    
+    {"source": "creator:gaming_guru", "target": "narrative:gaming-boom", "type": "amplifies", "weight": 0.92},
+    {"source": "creator:gaming_guru", "target": "creator:chain_champion", "type": "collab", "weight": 0.58},
+    
+    {"source": "creator:yield_yogi", "target": "narrative:lst-revolution", "type": "amplifies", "weight": 0.88},
+    {"source": "creator:yield_yogi", "target": "creator:staking_stan", "type": "collab", "weight": 0.82},
+    {"source": "creator:yield_yogi", "target": "creator:jito_junkie", "type": "collab", "weight": 0.78},
+    
+    {"source": "creator:rwa_researcher", "target": "narrative:rwa-wave", "type": "amplifies", "weight": 0.94},
+    
+    {"source": "creator:socialfi_savant", "target": "narrative:socialfi", "type": "amplifies", "weight": 0.88},
+    
+    {"source": "creator:tensor_trader", "target": "narrative:nft-points", "type": "amplifies", "weight": 0.85},
+    
+    {"source": "creator:perp_pro", "target": "narrative:perps-heat", "type": "amplifies", "weight": 0.90},
+    {"source": "creator:perp_pro", "target": "creator:whale_watcher", "type": "collab", "weight": 0.68},
+    
+    {"source": "creator:staking_stan", "target": "narrative:lst-revolution", "type": "amplifies", "weight": 0.75},
+    {"source": "creator:jito_junkie", "target": "narrative:lst-revolution", "type": "amplifies", "weight": 0.82},
+    
+    {"source": "creator:bonk_believer", "target": "narrative:meme-wars", "type": "amplifies", "weight": 0.88},
+    {"source": "creator:crypto_cat", "target": "narrative:meme-wars", "type": "amplifies", "weight": 0.55},
+    
+    {"source": "project:bonk", "target": "narrative:meme-wars", "type": "funds", "weight": 0.85},
+    {"source": "project:jito", "target": "narrative:lst-revolution", "type": "funds", "weight": 0.95},
+    {"source": "project:tensor", "target": "narrative:nft-points", "type": "funds", "weight": 0.88},
+    {"source": "project:jupiter", "target": "narrative:perps-heat", "type": "funds", "weight": 0.92},
+    {"source": "project:star-atlas", "target": "narrative:gaming-boom", "type": "funds", "weight": 0.90},
+    {"source": "project:ondo", "target": "narrative:rwa-wave", "type": "funds", "weight": 0.95}
+  ],
+  "clusters": {
+    "defi": {"label": "DeFi Cluster", "color": "#F59E0B"},
+    "trading": {"label": "Trading Cluster", "color": "#06B6D4"},
+    "nft": {"label": "NFT Cluster", "color": "#8B5CF6"},
+    "memes": {"label": "Meme Cluster", "color": "#EC4899"},
+    "gaming": {"label": "Gaming Cluster", "color": "#10B981"},
+    "ai": {"label": "AI Cluster", "color": "#3B82F6"},
+    "rwa": {"label": "RWA Cluster", "color": "#EF4444"},
+    "social": {"label": "Social Cluster", "color": "#A855F7"},
+    "ecosystem": {"label": "Ecosystem Cluster", "color": "#F97316"}
+  }
+}

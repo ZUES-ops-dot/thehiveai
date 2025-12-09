@@ -1,0 +1,86 @@
+{
+  "campaigns": [
+    {
+      "id": "campaign-001",
+      "name": "SolX Token Launch",
+      "projectTag": "SolXToken",
+      "description": "Amplify the SolX Token launch across X. Share insights, memes, and analysis about the revolutionary Solana-based token.",
+      "imageUrl": "/campaigns/solx.png",
+      "createdAt": "2024-12-01T00:00:00Z",
+      "endsAt": "2024-12-31T23:59:59Z",
+      "isActive": true,
+      "totalParticipants": 0,
+      "totalPosts": 0,
+      "totalMSP": 0,
+      "rewardPool": 50000,
+      "participants": []
+    },
+    {
+      "id": "campaign-002",
+      "name": "Astra AI Revolution",
+      "projectTag": "AstraAI",
+      "description": "Join the Astra AI movement. Create content about AI agents on Solana and earn rewards for quality engagement.",
+      "imageUrl": "/campaigns/astra.png",
+      "createdAt": "2024-12-02T00:00:00Z",
+      "endsAt": "2025-01-15T23:59:59Z",
+      "isActive": true,
+      "totalParticipants": 0,
+      "totalPosts": 0,
+      "totalMSP": 0,
+      "rewardPool": 75000,
+      "participants": []
+    },
+    {
+      "id": "campaign-003",
+      "name": "Quantum Drop",
+      "projectTag": "QuantumDrop",
+      "description": "Be part of the Quantum Drop NFT collection launch. Share your excitement and earn MSP for every valid post.",
+      "imageUrl": "/campaigns/quantum.png",
+      "createdAt": "2024-12-03T00:00:00Z",
+      "endsAt": "2024-12-20T23:59:59Z",
+      "isActive": true,
+      "totalParticipants": 0,
+      "totalPosts": 0,
+      "totalMSP": 0,
+      "rewardPool": 30000,
+      "participants": []
+    },
+    {
+      "id": "campaign-004",
+      "name": "Hive Launch Event",
+      "projectTag": "HiveLaunch1",
+      "description": "Official HiveAI platform launch campaign. Help spread the word about the future of social intelligence on Solana.",
+      "imageUrl": "/campaigns/hive.png",
+      "createdAt": "2024-12-04T00:00:00Z",
+      "endsAt": null,
+      "isActive": true,
+      "totalParticipants": 0,
+      "totalPosts": 0,
+      "totalMSP": 0,
+      "rewardPool": 100000,
+      "participants": []
+    },
+    {
+      "id": "campaign-005",
+      "name": "DeFi Summer 2.0",
+      "projectTag": "DeFiSummer2",
+      "description": "Celebrate the return of DeFi on Solana. Share alpha, strategies, and insights about the ecosystem.",
+      "imageUrl": "/campaigns/defi.png",
+      "createdAt": "2024-12-01T00:00:00Z",
+      "endsAt": "2025-02-28T23:59:59Z",
+      "isActive": true,
+      "totalParticipants": 0,
+      "totalPosts": 0,
+      "totalMSP": 0,
+      "rewardPool": 60000,
+      "participants": []
+    }
+  ],
+  "trackingInfo": {
+    "primaryHashtag": "#HiveAI",
+    "trackingRule": "Posts must contain BOTH #HiveAI AND the campaign-specific hashtag to be counted",
+    "examplePost": "Just discovered @SolXToken - the future of Solana DeFi! 🚀 #HiveAI #SolXToken",
+    "dataSource": "Nitter (free, no API required)",
+    "refreshInterval": 60
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "nodes": [
+    { "id": "1", "label": "Jupiter", "value": 25, "group": "project" },
+    { "id": "2", "label": "Anatoly", "value": 22, "group": "influencer" },
+    { "id": "3", "label": "Jito", "value": 18, "group": "project" },
+    { "id": "4", "label": "Ansem", "value": 20, "group": "influencer" },
+    { "id": "5", "label": "DeFi", "value": 15, "group": "narrative" },
+    { "id": "6", "label": "Memecoins", "value": 22, "group": "narrative" },
+    { "id": "7", "label": "Helius", "value": 14, "group": "project" },
+    { "id": "8", "label": "Mert", "value": 16, "group": "influencer" },
+    { "id": "9", "label": "Firedancer", "value": 12, "group": "narrative" },
+    { "id": "10", "label": "Tensor", "value": 13, "group": "project" },
+    { "id": "11", "label": "NFTs", "value": 11, "group": "narrative" },
+    { "id": "12", "label": "BONK", "value": 19, "group": "project" },
+    { "id": "13", "label": "Marinade", "value": 10, "group": "project" },
+    { "id": "14", "label": "Airdrops", "value": 17, "group": "narrative" },
+    { "id": "15", "label": "Raj Gokal", "value": 15, "group": "influencer" }
+  ],
+  "links": [
+    { "source": "1", "target": "5", "value": 8 },
+    { "source": "1", "target": "14", "value": 10 },
+    { "source": "2", "target": "9", "value": 7 },
+    { "source": "2", "target": "15", "value": 5 },
+    { "source": "3", "target": "5", "value": 6 },
+    { "source": "4", "target": "6", "value": 9 },
+    { "source": "4", "target": "12", "value": 8 },
+    { "source": "5", "target": "13", "value": 5 },
+    { "source": "6", "target": "12", "value": 10 },
+    { "source": "7", "target": "8", "value": 7 },
+    { "source": "8", "target": "9", "value": 6 },
+    { "source": "10", "target": "11", "value": 8 },
+    { "source": "11", "target": "6", "value": 4 },
+    { "source": "12", "target": "14", "value": 6 },
+    { "source": "13", "target": "5", "value": 5 },
+    { "source": "14", "target": "1", "value": 9 },
+    { "source": "15", "target": "2", "value": 6 },
+    { "source": "3", "target": "14", "value": 7 },
+    { "source": "7", "target": "9", "value": 5 },
+    { "source": "4", "target": "14", "value": 6 }
+  ]
+}

@@ -1,0 +1,70 @@
+name: Nitter Health Check
+
+# ============================================================================
+# This workflow monitors Nitter instance availability.
+# Runs every 6 hours and reports which instances are healthy.
+# Useful for debugging when tracking stops working.
+# ============================================================================
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    # Allow manual trigger
+
+jobs:
+  check-nitter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - name: Check Nitter instances
+        run: |
+          echo "🔍 Nitter Instance Health Check"
+          echo "==============================="
+          echo "Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          echo ""
+          
+          # List of Nitter instances (same as in hashtag-tracker.ts)
+          INSTANCES=(
+            "nitter.privacydev.net"
+            "nitter.poast.org"
+            "nitter.1d4.us"
+            "nitter.lucabased.xyz"
+            "nitter.woodland.cafe"
+          )
+          
+          HEALTHY=0
+          UNHEALTHY=0
+          
+          for instance in "${INSTANCES[@]}"; do
+            echo -n "Checking $instance... "
+            
+            # Try to fetch the homepage with a 10s timeout
+            status=$(curl -sS -o /dev/null -w "%{http_code}" \
+              --max-time 10 \
+              -H "User-Agent: Mozilla/5.0" \
+              "https://$instance/" 2>/dev/null || echo "000")
+            
+            if [ "$status" = "200" ]; then
+              echo "✅ OK (HTTP $status)"
+              HEALTHY=$((HEALTHY + 1))
+            else
+              echo "❌ FAILED (HTTP $status)"
+              UNHEALTHY=$((UNHEALTHY + 1))
+            fi
+          done
+          
+          echo ""
+          echo "==============================="
+          echo "Summary: $HEALTHY healthy, $UNHEALTHY unhealthy"
+          
+          if [ $HEALTHY -eq 0 ]; then
+            echo ""
+            echo "::error::All Nitter instances are down! Tracking will not work."
+            exit 1
+          elif [ $HEALTHY -lt 2 ]; then
+            echo ""
+            echo "::warning::Only $HEALTHY Nitter instance(s) available. Consider adding more fallbacks."
+          fi

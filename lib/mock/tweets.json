@@ -1,0 +1,86 @@
+[
+  {
+    "id": "1",
+    "author": {
+      "name": "Solana Foundation",
+      "handle": "solaboratory",
+      "avatar": null,
+      "verified": true
+    },
+    "content": "Firedancer is live on testnet! This is a huge milestone for Solana scalability. The future of high-performance blockchain is here. 🔥",
+    "likes": 12500,
+    "retweets": 4200,
+    "replies": 890,
+    "timestamp": "2024-01-15T10:30:00Z"
+  },
+  {
+    "id": "2",
+    "author": {
+      "name": "Anatoly Yakovenko",
+      "handle": "aaboronkov",
+      "avatar": null,
+      "verified": true
+    },
+    "content": "State compression is criminally underrated. You can mint millions of NFTs for pennies. This changes everything for gaming and social apps on Solana.",
+    "likes": 8900,
+    "retweets": 2100,
+    "replies": 456,
+    "timestamp": "2024-01-15T08:15:00Z"
+  },
+  {
+    "id": "3",
+    "author": {
+      "name": "Jupiter Exchange",
+      "handle": "JupiterExchange",
+      "avatar": null,
+      "verified": true
+    },
+    "content": "JUP airdrop claims are LIVE! Check your eligibility at jup.ag/airdrop. Thank you to the entire Solana community for making this possible. 🪐",
+    "likes": 45000,
+    "retweets": 18500,
+    "replies": 5200,
+    "timestamp": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "4",
+    "author": {
+      "name": "Degen Spartan",
+      "handle": "DegenSpartan",
+      "avatar": null,
+      "verified": false
+    },
+    "content": "The Solana memecoin szn is just getting started. $BONK was the appetizer, wait until you see what's cooking. NFA but LFG 🚀",
+    "likes": 3200,
+    "retweets": 890,
+    "replies": 234,
+    "timestamp": "2024-01-14T22:45:00Z"
+  },
+  {
+    "id": "5",
+    "author": {
+      "name": "Helius",
+      "handle": "heaborusdev",
+      "avatar": null,
+      "verified": true
+    },
+    "content": "New RPC endpoints with 99.99% uptime. Solana builders deserve infrastructure that just works. Ship faster with Helius.",
+    "likes": 2100,
+    "retweets": 567,
+    "replies": 123,
+    "timestamp": "2024-01-14T18:30:00Z"
+  },
+  {
+    "id": "6",
+    "author": {
+      "name": "Mad Lads",
+      "handle": "MadLadsNFT",
+      "avatar": null,
+      "verified": true
+    },
+    "content": "Floor price just hit 200 SOL. The backpack ecosystem is growing exponentially. This is what happens when you build utility first. 🎒",
+    "likes": 6700,
+    "retweets": 1890,
+    "replies": 567,
+    "timestamp": "2024-01-14T14:20:00Z"
+  }
+]

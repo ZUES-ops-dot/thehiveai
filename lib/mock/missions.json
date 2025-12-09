@@ -1,0 +1,126 @@
+{
+  "missions": [
+    {
+      "id": "mission-daily-001",
+      "title": "Narrative Amplifier",
+      "description": "Amplify 3 different narratives today",
+      "type": "daily",
+      "category": "amplification",
+      "status": "active",
+      "progress": 2,
+      "target": 3,
+      "xpReward": 50,
+      "creditsReward": 25
+    },
+    {
+      "id": "mission-daily-002",
+      "title": "Engagement Spark",
+      "description": "Generate 500 engagement points from your content",
+      "type": "daily",
+      "category": "engagement",
+      "status": "active",
+      "progress": 320,
+      "target": 500,
+      "xpReward": 40
+    },
+    {
+      "id": "mission-daily-003",
+      "title": "Commentary King",
+      "description": "Leave 5 high-value comments on trending narratives",
+      "type": "daily",
+      "category": "engagement",
+      "status": "completed",
+      "progress": 5,
+      "target": 5,
+      "xpReward": 30,
+      "completedAt": "2024-12-01T14:30:00Z"
+    },
+    {
+      "id": "mission-weekly-001",
+      "title": "Mindshare Milestone",
+      "description": "Reach 10,000 total MSP this week",
+      "type": "weekly",
+      "category": "amplification",
+      "status": "active",
+      "progress": 7450,
+      "target": 10000,
+      "xpReward": 500,
+      "creditsReward": 200
+    },
+    {
+      "id": "mission-weekly-002",
+      "title": "Streak Guardian",
+      "description": "Maintain a 7-day activity streak",
+      "type": "weekly",
+      "category": "streak",
+      "status": "active",
+      "progress": 5,
+      "target": 7,
+      "xpReward": 300,
+      "badgeReward": "Streak Guardian"
+    },
+    {
+      "id": "mission-weekly-003",
+      "title": "Narrative Explorer",
+      "description": "Amplify content in 5 different narrative categories",
+      "type": "weekly",
+      "category": "discovery",
+      "status": "active",
+      "progress": 3,
+      "target": 5,
+      "xpReward": 400
+    },
+    {
+      "id": "mission-monthly-001",
+      "title": "Tier Ascension",
+      "description": "Reach Echelon tier this month",
+      "type": "monthly",
+      "category": "tier",
+      "status": "completed",
+      "progress": 1,
+      "target": 1,
+      "xpReward": 2000,
+      "badgeReward": "Echelon Achiever",
+      "cosmeticReward": "Purple Aura",
+      "completedAt": "2024-11-28T10:00:00Z"
+    },
+    {
+      "id": "mission-monthly-002",
+      "title": "Top 50 Contender",
+      "description": "Reach top 50 in any leaderboard this month",
+      "type": "monthly",
+      "category": "tier",
+      "status": "active",
+      "progress": 0,
+      "target": 1,
+      "xpReward": 1500,
+      "creditsReward": 500
+    },
+    {
+      "id": "mission-special-001",
+      "title": "First Mover",
+      "description": "Be the first to amplify a newly created narrative",
+      "type": "special",
+      "category": "discovery",
+      "status": "active",
+      "progress": 0,
+      "target": 1,
+      "xpReward": 1000,
+      "badgeReward": "First Mover",
+      "cosmeticReward": "Golden Trail"
+    },
+    {
+      "id": "mission-special-002",
+      "title": "Viral Moment",
+      "description": "Generate 10,000+ engagement on a single piece of content",
+      "type": "special",
+      "category": "engagement",
+      "status": "locked",
+      "progress": 0,
+      "target": 10000,
+      "xpReward": 5000,
+      "badgeReward": "Viral Legend",
+      "cosmeticReward": "Lightning Particles"
+    }
+  ]
+}
