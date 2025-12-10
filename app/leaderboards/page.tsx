@@ -294,7 +294,7 @@ function LeaderboardsContent() {
                         <span className="text-sm font-bold text-hive-cyan">{msp.toLocaleString()}</span>
                       </td>
                       <td className="py-3 px-2 sm:px-4 text-right hidden md:table-cell">
-                        <span className="text-sm text-hive-amber">{participant.postCount.toLocaleString()}</span>
+                        <span className="text-sm text-hive-amber">{Math.floor(msp * 0.1).toLocaleString()}</span>
                       </td>
                       <td className="py-3 px-2 sm:px-4 text-right">
                         <div className="flex items-center justify-end gap-1">
