@@ -16,12 +16,35 @@ import type { TrackedPost, TrackingQuery } from '@/lib/types/auth'
 import { calculatePostMspFull, type TrackedPostInput } from './mindshare-engine'
 
 // Available Nitter instances (rotate if one is down)
+// Updated list with more active instances as of 2024
 const NITTER_INSTANCES = [
+  // Primary instances (most reliable)
   'nitter.privacydev.net',
   'nitter.poast.org',
   'nitter.1d4.us',
   'nitter.lucabased.xyz',
   'nitter.woodland.cafe',
+  // Additional instances for fallback
+  'nitter.net',
+  'nitter.cz',
+  'nitter.unixfox.eu',
+  'nitter.moomoo.me',
+  'nitter.it',
+  'nitter.namazso.eu',
+  'nitter.hu',
+  'nitter.esmailelbob.xyz',
+  'nitter.tiekoetter.com',
+  'nitter.spaceint.fr',
+  'nitter.rawbit.ninja',
+  'nitter.d420.de',
+  'nitter.caber.ga',
+  'nitter.fly.dev',
+  'nitter.adminforge.de',
+  'nitter.platypush.tech',
+  'nitter.hostux.net',
+  'nitter.lunar.icu',
+  'nitter.freedit.eu',
+  'nitter.pufe.org',
 ]
 
 // Cache for instance health status
@@ -34,8 +57,8 @@ interface InstanceHealth {
 }
 
 const instanceHealthCache = new Map<string, InstanceHealth>()
-const HEALTH_CHECK_INTERVAL = 5 * 60 * 1000 // 5 minutes
-const MAX_CONSECUTIVE_FAILURES = 3
+const HEALTH_CHECK_INTERVAL = 2 * 60 * 1000 // 2 minutes (faster rotation when instances fail)
+const MAX_CONSECUTIVE_FAILURES = 2 // Faster failover
 
 export const PRIMARY_HASHTAG = '#HiveAI'
 
@@ -288,9 +311,272 @@ export async function fetchCampaignPosts(
     }
   }
 
+  // Try RSS-Bridge as fallback
+  const rssBridgePosts = await fetchFromRssBridge(projectTag)
+  if (rssBridgePosts.length > 0) {
+    return { posts: rssBridgePosts, instanceUsed: 'rss-bridge' }
+  }
+
+  // Try SocialData API as fallback (if configured)
+  const socialDataPosts = await fetchFromSocialData(projectTag)
+  if (socialDataPosts.length > 0) {
+    return { posts: socialDataPosts, instanceUsed: 'socialdata-api' }
+  }
+
+  // Try Apify Twitter Scraper as final fallback (if configured)
+  const apifyPosts = await fetchFromApify(projectTag)
+  if (apifyPosts.length > 0) {
+    return { posts: apifyPosts, instanceUsed: 'apify' }
+  }
+
   return { 
     posts: [], 
-    error: lastError ?? 'All Nitter instances unavailable' 
+    error: lastError ?? 'All scraping sources unavailable (Nitter, RSS-Bridge, SocialData, Apify)' 
+  }
+}
+
+/**
+ * RSS-Bridge instances for Twitter scraping fallback
+ */
+const RSS_BRIDGE_INSTANCES = [
+  'rss-bridge.org/bridge01',
+  'wtf.roflcopter.fr/rss-bridge',
+  'rss.nixnet.services',
+  'rssbridge.flossboxin.org.in',
+]
+
+/**
+ * Fetch posts from RSS-Bridge as Nitter fallback
+ */
+async function fetchFromRssBridge(projectTag: string): Promise<Partial<TrackedPost>[]> {
+  const query = buildTrackingQuery(projectTag)
+  const searchQuery = query.combined.replace(/#/g, '%23')
+  
+  for (const bridge of RSS_BRIDGE_INSTANCES) {
+    try {
+      const url = `https://${bridge}/?action=display&bridge=TwitterBridge&context=By+keyword+or+hashtag&q=${encodeURIComponent(searchQuery)}&format=Json`
+      
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 8000)
+      
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        },
+      })
+      
+      clearTimeout(timeoutId)
+      
+      if (!response.ok) continue
+      
+      const data = await response.json()
+      const posts: Partial<TrackedPost>[] = []
+      
+      for (const item of data.items || []) {
+        const text = item.content_text || item.title || ''
+        if (!isValidPost(text, projectTag)) continue
+        
+        // Extract username from author or URL
+        const authorMatch = item.author?.name?.match(/@(\w+)/) || item.url?.match(/twitter\.com\/(\w+)/)
+        const username = authorMatch?.[1] || 'unknown'
+        
+        // Extract tweet ID from URL
+        const idMatch = item.url?.match(/status\/(\d+)/)
+        const tweetId = idMatch?.[1]
+        
+        if (!tweetId) continue
+        
+        posts.push({
+          id: tweetId,
+          authorUsername: username,
+          authorName: item.author?.name?.replace(/@\w+/, '').trim() || username,
+          text,
+          createdAt: item.date_published || new Date().toISOString(),
+          metrics: { likes: 0, retweets: 0, replies: 0, quotes: 0 },
+          hasHiveAITag: true,
+          hasProjectTag: true,
+          isValid: true,
+        })
+      }
+      
+      if (posts.length > 0) {
+        console.log(`[RSS-Bridge] Found ${posts.length} posts from ${bridge}`)
+        return posts
+      }
+    } catch (error) {
+      console.warn(`RSS-Bridge ${bridge} failed:`, error instanceof Error ? error.message : 'Unknown')
+    }
+  }
+  
+  return []
+}
+
+/**
+ * Fetch posts from SocialData API (requires SOCIALDATA_API_KEY env var)
+ * Free tier: 100 requests/month
+ * https://socialdata.tools
+ */
+async function fetchFromSocialData(projectTag: string): Promise<Partial<TrackedPost>[]> {
+  const apiKey = process.env.SOCIALDATA_API_KEY
+  if (!apiKey) return []
+  
+  const query = buildTrackingQuery(projectTag)
+  
+  try {
+    const url = `https://api.socialdata.tools/twitter/search?query=${encodeURIComponent(query.combined)}&type=Latest`
+    
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 10000)
+    
+    const response = await fetch(url, {
+      signal: controller.signal,
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Accept': 'application/json',
+      },
+    })
+    
+    clearTimeout(timeoutId)
+    
+    if (!response.ok) {
+      console.warn(`SocialData API returned ${response.status}`)
+      return []
+    }
+    
+    const data = await response.json()
+    const posts: Partial<TrackedPost>[] = []
+    
+    for (const tweet of data.tweets || []) {
+      const text = tweet.full_text || tweet.text || ''
+      if (!isValidPost(text, projectTag)) continue
+      
+      posts.push({
+        id: tweet.id_str || String(tweet.id),
+        authorUsername: tweet.user?.screen_name || 'unknown',
+        authorName: tweet.user?.name || tweet.user?.screen_name || 'Unknown',
+        authorProfileImage: tweet.user?.profile_image_url_https,
+        text,
+        createdAt: tweet.created_at ? new Date(tweet.created_at).toISOString() : new Date().toISOString(),
+        metrics: {
+          likes: tweet.favorite_count || 0,
+          retweets: tweet.retweet_count || 0,
+          replies: tweet.reply_count || 0,
+          quotes: tweet.quote_count || 0,
+        },
+        hasHiveAITag: true,
+        hasProjectTag: true,
+        isValid: true,
+      })
+    }
+    
+    if (posts.length > 0) {
+      console.log(`[SocialData] Found ${posts.length} posts`)
+    }
+    
+    return posts
+  } catch (error) {
+    console.warn('SocialData API failed:', error instanceof Error ? error.message : 'Unknown')
+    return []
+  }
+}
+
+/**
+ * Fetch posts from Apify Twitter Scraper (requires APIFY_API_TOKEN env var)
+ * Free tier: $5 credit (~20k tweets)
+ * https://apify.com/apidojo/twitter-scraper
+ */
+async function fetchFromApify(projectTag: string): Promise<Partial<TrackedPost>[]> {
+  const apiToken = process.env.APIFY_API_TOKEN
+  if (!apiToken) return []
+  
+  const query = buildTrackingQuery(projectTag)
+  
+  try {
+    // Start the actor run
+    const runResponse = await fetch(
+      `https://api.apify.com/v2/acts/apidojo~twitter-scraper/runs?token=${apiToken}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          searchTerms: [query.combined],
+          maxTweets: 100,
+          searchMode: 'live',
+        }),
+      }
+    )
+    
+    if (!runResponse.ok) {
+      console.warn(`Apify run failed: ${runResponse.status}`)
+      return []
+    }
+    
+    const runData = await runResponse.json()
+    const runId = runData.data?.id
+    
+    if (!runId) return []
+    
+    // Wait for completion (poll for up to 60 seconds)
+    let attempts = 0
+    while (attempts < 12) {
+      await new Promise(r => setTimeout(r, 5000))
+      
+      const statusResponse = await fetch(
+        `https://api.apify.com/v2/actor-runs/${runId}?token=${apiToken}`
+      )
+      const statusData = await statusResponse.json()
+      
+      if (statusData.data?.status === 'SUCCEEDED') {
+        break
+      } else if (statusData.data?.status === 'FAILED') {
+        console.warn('Apify run failed')
+        return []
+      }
+      attempts++
+    }
+    
+    // Get results
+    const datasetResponse = await fetch(
+      `https://api.apify.com/v2/actor-runs/${runId}/dataset/items?token=${apiToken}`
+    )
+    
+    if (!datasetResponse.ok) return []
+    
+    const tweets = await datasetResponse.json()
+    const posts: Partial<TrackedPost>[] = []
+    
+    for (const tweet of tweets) {
+      const text = tweet.full_text || tweet.text || ''
+      if (!isValidPost(text, projectTag)) continue
+      
+      posts.push({
+        id: tweet.id_str || String(tweet.id),
+        authorUsername: tweet.user?.screen_name || 'unknown',
+        authorName: tweet.user?.name || 'Unknown',
+        authorProfileImage: tweet.user?.profile_image_url_https,
+        text,
+        createdAt: tweet.created_at ? new Date(tweet.created_at).toISOString() : new Date().toISOString(),
+        metrics: {
+          likes: tweet.favorite_count || 0,
+          retweets: tweet.retweet_count || 0,
+          replies: tweet.reply_count || 0,
+          quotes: tweet.quote_count || 0,
+        },
+        hasHiveAITag: true,
+        hasProjectTag: true,
+        isValid: true,
+      })
+    }
+    
+    if (posts.length > 0) {
+      console.log(`[Apify] Found ${posts.length} posts`)
+    }
+    
+    return posts
+  } catch (error) {
+    console.warn('Apify failed:', error instanceof Error ? error.message : 'Unknown')
+    return []
   }
 }
 
