@@ -1,2 +1,3 @@
-2025/12/11-10:20:12.875 42b4 Creating DB C:\=projects\THE ATTENTION MEDIA\HiveAI\scraper\.puppeteer_profile\Default\shared_proto_db since it was missing.
-2025/12/11-10:20:12.886 42b4 Reusing MANIFEST C:\=projects\THE ATTENTION MEDIA\HiveAI\scraper\.puppeteer_profile\Default\shared_proto_db/MANIFEST-000001
+2025/12/11-10:37:20.638 2ba0 Reusing MANIFEST C:\=projects\THE ATTENTION MEDIA\HiveAI\scraper\.puppeteer_profile\Default\shared_proto_db/MANIFEST-000001
+2025/12/11-10:37:20.639 2ba0 Recovering log #3
+2025/12/11-10:37:20.639 2ba0 Reusing old log C:\=projects\THE ATTENTION MEDIA\HiveAI\scraper\.puppeteer_profile\Default\shared_proto_db/000003.log 

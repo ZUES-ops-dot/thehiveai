@@ -94,7 +94,17 @@ export const CONTENT_TYPE_BONUSES: Record<string, number> = {
 
 export const EARLY_AMPLIFICATION_BONUS = 1.5 // +50% for first 24h
 
-export const POST_MSP_MULTIPLIER = 5 // Global multiplier for post MSP
+// Tiered engagement multipliers - rewards viral posts more
+export const ENGAGEMENT_TIERS = [
+  { threshold: 1000, multiplier: 4.0 },  // 1k+ likes = 4x
+  { threshold: 500, multiplier: 3.0 },   // 500+ likes = 3x
+  { threshold: 200, multiplier: 2.0 },   // 200+ likes = 2x
+  { threshold: 100, multiplier: 1.5 },   // 100+ likes = 1.5x
+  { threshold: 0, multiplier: 1.0 },     // base = 1x
+]
+
+// Base MSP divisor to get ~150-200 for low engagement posts
+export const BASE_MSP_DIVISOR = 3
 
 export const DECAY_RATE = 0.10 // 10% per day after 7 days
 export const DECAY_START_DAYS = 7
@@ -540,6 +550,9 @@ export function calculatePostMspFull(input: TrackedPostInput): number {
   // Run through full engine
   const result = calculateMsp(engineInput)
   
-  // Apply global post multiplier
-  return result.finalMsp * POST_MSP_MULTIPLIER
+  // Apply tiered multiplier based on total engagement
+  const tier = ENGAGEMENT_TIERS.find(t => totalEngagement >= t.threshold) || ENGAGEMENT_TIERS[ENGAGEMENT_TIERS.length - 1]
+  const tieredMsp = (result.finalMsp / BASE_MSP_DIVISOR) * tier.multiplier
+  
+  return Math.round(tieredMsp)
 }

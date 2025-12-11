@@ -884,7 +884,12 @@ export default function AdminDashboard() {
                         const body: Record<string, unknown> = { maxTweets: 30, headless: false }
                         if (selectedCampaign !== 'all') {
                           const campaign = campaigns.find(c => c.id === selectedCampaign)
-                          if (campaign) body.projectTag = campaign.projectTag
+                          if (campaign) {
+                            body.projectTag = campaign.projectTag
+                            console.log(`[Scrape] Scraping single campaign: #${campaign.projectTag}`)
+                          }
+                        } else {
+                          console.log('[Scrape] Scraping ALL campaigns')
                         }
                         
                         const res = await fetch('/api/admin/scrape', {

@@ -141,6 +141,9 @@ export async function runScraper(options: ScrapingOptions): Promise<ScrapingResu
     
     console.log('[Scraper] ✅ Session authenticated, starting scrape...')
     
+    // Close initial page, we'll create fresh pages for each campaign
+    await page.close()
+    
     // Process each campaign
     for (const projectTag of opts.projectTags) {
       console.log(`\n[Scraper] Processing campaign: #${projectTag}`)
@@ -155,9 +158,12 @@ export async function runScraper(options: ScrapingOptions): Promise<ScrapingResu
         tweets: [],
       }
       
+      // Create fresh page for each campaign to avoid detached frame errors
+      const campaignPage = await createPage(browser)
+      
       try {
         // Search for tweets with both hashtags
-        const { urls, error: searchError } = await searchCampaignPosts(page, projectTag, {
+        const { urls, error: searchError } = await searchCampaignPosts(campaignPage, projectTag, {
           maxTweets: opts.maxTweets,
           scrollCount: 5,
         })
@@ -175,7 +181,7 @@ export async function runScraper(options: ScrapingOptions): Promise<ScrapingResu
         for (const url of urls) {
           await randomDelay(opts.delayMs, opts.delayMs + 2000)
           
-          const tweet = await scrapeTweetStats(page, url)
+          const tweet = await scrapeTweetStats(campaignPage, url)
           
           if (tweet) {
             // Validate hashtags
@@ -194,6 +200,9 @@ export async function runScraper(options: ScrapingOptions): Promise<ScrapingResu
         const errorMessage = error instanceof Error ? error.message : 'Unknown error'
         campaignResult.errors.push(errorMessage)
         console.error(`[Scraper] Campaign error:`, errorMessage)
+      } finally {
+        // Close campaign page to free resources
+        try { await campaignPage.close() } catch {}
       }
       
       result.results.push(campaignResult)
@@ -201,8 +210,10 @@ export async function runScraper(options: ScrapingOptions): Promise<ScrapingResu
       result.totalTweetsRecorded += campaignResult.tweetsRecorded
     }
     
-    // Save cookies for next run
-    await saveCookies(page, COOKIES_PATH)
+    // Save cookies for next run (create temp page to get cookies)
+    const tempPage = await createPage(browser)
+    await saveCookies(tempPage, COOKIES_PATH)
+    await tempPage.close()
     
     result.success = true
     

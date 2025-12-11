@@ -1,2 +1,3 @@
-2025/12/11-10:22:04.929 42b4 Creating DB C:\=projects\THE ATTENTION MEDIA\HiveAI\scraper\.puppeteer_profile\Default\Service Worker\Database since it was missing.
-2025/12/11-10:22:04.940 42b4 Reusing MANIFEST C:\=projects\THE ATTENTION MEDIA\HiveAI\scraper\.puppeteer_profile\Default\Service Worker\Database/MANIFEST-000001
+2025/12/11-10:37:20.418 2ba0 Reusing MANIFEST C:\=projects\THE ATTENTION MEDIA\HiveAI\scraper\.puppeteer_profile\Default\Service Worker\Database/MANIFEST-000001
+2025/12/11-10:37:20.418 2ba0 Recovering log #3
+2025/12/11-10:37:20.418 2ba0 Reusing old log C:\=projects\THE ATTENTION MEDIA\HiveAI\scraper\.puppeteer_profile\Default\Service Worker\Database/000003.log 
