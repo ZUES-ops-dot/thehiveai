@@ -415,42 +415,24 @@ export default function MissionsPage() {
       {isAuthenticated && user?.username && (
         <motion.div variants={itemVariants}>
           <HiveGlowCard glowColor="purple" hover={false}>
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-              <div className="space-y-3">
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-1">Invite Mission</p>
-                  <h3 className="text-xl font-semibold text-white">Grow the hive with one link.</h3>
-                  <p className="text-sm text-gray-400 max-w-md">
-                    Share your invite—every verified onboarding through your link instantly adds <span className="text-white">+{inviteBoostValue} MSP</span> to your total and stacks with streak multipliers.
-                  </p>
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-9 h-9 rounded-lg bg-hive-purple/20 flex items-center justify-center flex-shrink-0">
+                  <Zap className="w-4 h-4 text-hive-purple" />
                 </div>
-                <div className="flex flex-wrap items-center gap-3 text-xs font-semibold">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3 py-1 text-white/80">
-                    <Zap className="w-3 h-3 text-hive-amber" />
-                    Boost per invite: +{inviteBoostValue} MSP
-                  </span>
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3 py-1 text-white/80">
-                    <Sparkles className="w-3 h-3 text-hive-purple" />
-                    Bonus when creator completes onboarding
-                  </span>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-white">Invite & earn +{inviteBoostValue} MSP</p>
+                  <p className="text-xs text-gray-500 truncate">{inviteLink}</p>
                 </div>
               </div>
-              <div className="w-full sm:max-w-md">
-                <p className="text-xs text-gray-500 mb-1">Your unique invite link</p>
-                <div className="flex gap-2 flex-col sm:flex-row">
-                  <div className="flex-1 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white break-all">
-                    {inviteLink}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleCopyInvite}
-                    className="inline-flex items-center justify-center gap-1 rounded-lg bg-white/90 px-4 py-2 text-sm font-semibold text-black hover:bg-white"
-                  >
-                    <Copy className="w-4 h-4" />
-                    {inviteCopied ? 'Copied!' : 'Copy'}
-                  </button>
-                </div>
-              </div>
+              <button
+                type="button"
+                onClick={handleCopyInvite}
+                className="flex-shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-hive-purple/20 border border-hive-purple/30 px-3 py-1.5 text-xs font-medium text-hive-purple hover:bg-hive-purple/30 transition-colors"
+              >
+                <Copy className="w-3.5 h-3.5" />
+                {inviteCopied ? 'Copied!' : 'Copy'}
+              </button>
             </div>
           </HiveGlowCard>
         </motion.div>
