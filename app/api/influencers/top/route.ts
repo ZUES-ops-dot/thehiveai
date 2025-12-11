@@ -74,10 +74,9 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from('participants')
       .select('*')
+      .order('msp', { ascending: false })
       .order('followers_count', { ascending: false })
-      .order('virality_score', { ascending: false })
-      .order('engagement_rate', { ascending: false })
-      .limit(limit)
+      .limit(limit * 3) // Fetch extra to account for deduplication
 
     if (campaignId) {
       query = query.eq('campaign_id', campaignId)
@@ -88,7 +87,18 @@ export async function GET(request: NextRequest) {
       query = query.in('user_id', connectedUserIds)
     }
 
-    const { data, error } = await query.returns<Participant[]>()
+    const { data: rawData, error } = await query.returns<Participant[]>()
+
+    // Deduplicate by username (keep highest MSP entry for each user)
+    const seenUsernames = new Set<string>()
+    const data = (rawData ?? []).filter((participant) => {
+      const normalizedUsername = participant.username?.toLowerCase()
+      if (!normalizedUsername || seenUsernames.has(normalizedUsername)) {
+        return false
+      }
+      seenUsernames.add(normalizedUsername)
+      return true
+    }).slice(0, limit)
 
     if (error) {
       console.error('Failed to fetch top influencers:', error)

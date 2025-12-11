@@ -275,7 +275,7 @@ export async function recalculateRanks(campaignId: string): Promise<boolean> {
   // Fetch all participants ordered by MSP
   const { data: participants, error: fetchError } = await supabase
     .from('participants')
-    .select('id, msp')
+    .select('id, msp, user_id, followers_count')
     .eq('campaign_id', campaignId)
     .order('msp', { ascending: false })
 
@@ -284,15 +284,44 @@ export async function recalculateRanks(campaignId: string): Promise<boolean> {
     return false
   }
 
-  const participantList = participants as Array<{ id: string; msp: number }>
+  const participantList = participants as Array<{ id: string; msp: number; user_id: string; followers_count: number | null }>
 
-  // Update ranks
+  // Update ranks and calculate engagement/virality for each participant
   for (let i = 0; i < participantList.length; i++) {
-    const updateData: ParticipantUpdate = { rank: i + 1 }
+    const participant = participantList[i]
+    
+    // Fetch post stats for this participant in this campaign
+    const { data: posts } = await supabase
+      .from('post_events')
+      .select('likes, retweets, replies, quotes')
+      .eq('campaign_id', campaignId)
+      .eq('user_id', participant.user_id)
+    
+    let engagementRate = 0
+    let viralityScore = 0
+    
+    if (posts && posts.length > 0) {
+      const totalEngagement = posts.reduce((sum, p) => 
+        sum + (p.likes || 0) + (p.retweets || 0) + (p.replies || 0) + (p.quotes || 0), 0)
+      const totalRetweets = posts.reduce((sum, p) => sum + (p.retweets || 0), 0)
+      const followers = participant.followers_count || 100
+      
+      // Engagement rate = total engagement / (followers * post count) * 100
+      engagementRate = Math.min(100, (totalEngagement / (followers * posts.length)) * 100)
+      
+      // Virality score = retweets as % of total engagement (0-100)
+      viralityScore = totalEngagement > 0 ? Math.round((totalRetweets / totalEngagement) * 100) : 0
+    }
+    
+    const updateData: ParticipantUpdate = { 
+      rank: i + 1,
+      engagement_rate: Math.round(engagementRate * 100) / 100, // 2 decimal places
+      virality_score: viralityScore,
+    }
     const { error } = await supabase
       .from('participants')
       .update(updateData as never)
-      .eq('id', participantList[i].id)
+      .eq('id', participant.id)
 
     if (error) {
       console.error('Failed to update rank:', error)
