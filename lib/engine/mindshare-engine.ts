@@ -102,7 +102,7 @@ export const DECAY_START_DAYS = 7
 // Anti-spam thresholds
 export const ANTI_SPAM = {
   minUniqueEngagers: 5,
-  maxEngagementRatio: 0.5, // engagement/impressions should be < 50%
+  maxEngagementRatio: 2.0, // Relaxed - was 0.5, now allows higher engagement
   minContentAge: 60, // seconds - prevent instant engagement farming
   duplicateContentPenalty: 0.0, // 100% penalty for duplicate content
 }
@@ -485,8 +485,8 @@ export function calculatePostMspFull(input: TrackedPostInput): number {
     campaignStartDate,
   } = input
   
-  // Estimate reach from followers (rough heuristic: 10-30% see the post)
-  const estimatedReach = Math.max(1, Math.round(followersCount * 0.15))
+  // Estimate reach from followers - use higher minimum to avoid anti-spam false positives
+  const estimatedReach = Math.max(100, Math.round(followersCount * 0.15))
   const totalEngagement = likes + retweets + replies + quotes
   
   // Calculate content age in hours
