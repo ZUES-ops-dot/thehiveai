@@ -84,11 +84,19 @@ export async function POST(request: NextRequest) {
       if (!campaign) continue
 
       let recordedCount = 0
+      let updatedCount = 0
       let totalMsp = 0
       const errors: string[] = [...campaignResult.errors]
 
       for (const tweet of campaignResult.tweets) {
         try {
+          // Skip posts with 0 engagement on all metrics
+          const totalEngagement = tweet.likes + tweet.retweets + tweet.replies + tweet.quotes
+          if (totalEngagement === 0) {
+            console.log(`[Scrape API] Skipping tweet ${tweet.id} - zero engagement`)
+            continue
+          }
+
           // Check if already tracked
           const alreadyTracked = await isTweetTracked(tweet.id)
           
@@ -100,6 +108,7 @@ export async function POST(request: NextRequest) {
               replies: tweet.replies,
               quotes: tweet.quotes,
             })
+            updatedCount++
             console.log(`[Scrape API] Updated metrics for tweet ${tweet.id}`)
             continue
           }
@@ -151,9 +160,10 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      // Recalculate ranks if any posts were recorded
-      if (recordedCount > 0) {
+      // Recalculate ranks and engagement/virality if any posts were recorded or updated
+      if (recordedCount > 0 || updatedCount > 0) {
         await recalculateRanks(campaignId)
+        console.log(`[Scrape API] Recalculated ranks for campaign ${campaignId}`)  
       }
 
       dbResults.push({

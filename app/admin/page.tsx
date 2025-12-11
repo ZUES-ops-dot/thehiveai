@@ -92,7 +92,24 @@ export default function AdminDashboard() {
 
   // UI state
   const [expandedCampaign, setExpandedCampaign] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'overview' | 'tracking' | 'backfill' | 'search' | 'addpost' | 'scrape'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'tracking' | 'backfill' | 'search' | 'addpost' | 'scrape' | 'adjustmsp'>('overview')
+
+  // MSP Adjustment state
+  const [mspSearchQuery, setMspSearchQuery] = useState('')
+  const [mspSearchResults, setMspSearchResults] = useState<Array<{
+    id: string
+    username: string
+    displayName: string
+    campaignId: string
+    campaignName: string
+    msp: number
+    rank: number | null
+  }>>([])
+  const [mspSearching, setMspSearching] = useState(false)
+  const [mspAdjustment, setMspAdjustment] = useState<number>(0)
+  const [mspReason, setMspReason] = useState('')
+  const [adjustingMsp, setAdjustingMsp] = useState(false)
+  const [mspAdjustResult, setMspAdjustResult] = useState<Record<string, unknown> | null>(null)
 
   // Scrape state
   const [scrapeInProgress, setScrapeInProgress] = useState(false)
@@ -276,6 +293,7 @@ export default function AdminDashboard() {
               { id: 'search', label: 'Search', icon: Search },
               { id: 'addpost', label: 'Add Post', icon: Plus },
               { id: 'scrape', label: 'Scrape X', icon: Globe },
+              { id: 'adjustmsp', label: 'Adjust MSP', icon: TrendingUp },
             ].map(tab => (
               <button
                 key={tab.id}
@@ -961,6 +979,189 @@ export default function AdminDashboard() {
                   </pre>
                 </div>
               )}
+            </motion.div>
+          )}
+
+          {/* Adjust MSP Tab */}
+          {activeTab === 'adjustmsp' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-6"
+            >
+              <div className="bg-gray-900/50 border border-amber-500/20 rounded-xl p-6">
+                <h2 className="text-xl font-semibold text-amber-400 mb-4">Adjust MSP</h2>
+                <p className="text-gray-400 mb-6">
+                  Search for a participant and add or subtract MSP from their account.
+                </p>
+
+                {/* Search for participant */}
+                <div className="space-y-4 mb-6">
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">Search by Username</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={mspSearchQuery}
+                        onChange={(e) => setMspSearchQuery(e.target.value)}
+                        placeholder="@username"
+                        className="flex-1 bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            // Search participants
+                            const searchParticipants = async () => {
+                              if (!mspSearchQuery || mspSearchQuery.length < 2) return
+                              setMspSearching(true)
+                              setMspSearchResults([])
+                              try {
+                                const params = new URLSearchParams({ q: mspSearchQuery, limit: '20' })
+                                const res = await fetch(`/api/admin/search?${params}`)
+                                const data = await res.json()
+                                if (data.success && data.results?.participants) {
+                                  setMspSearchResults(data.results.participants.map((p: Record<string, unknown>) => ({
+                                    id: p.id as string,
+                                    username: p.username as string,
+                                    displayName: p.display_name as string || p.username as string,
+                                    campaignId: p.campaign_id as string,
+                                    campaignName: (p as Record<string, unknown>).campaign_name as string || 'Unknown',
+                                    msp: p.msp as number || 0,
+                                    rank: p.rank as number | null,
+                                  })))
+                                }
+                              } catch (error) {
+                                console.error('Search failed:', error)
+                              } finally {
+                                setMspSearching(false)
+                              }
+                            }
+                            searchParticipants()
+                          }
+                        }}
+                      />
+                      <button
+                        onClick={async () => {
+                          if (!mspSearchQuery || mspSearchQuery.length < 2) return
+                          setMspSearching(true)
+                          setMspSearchResults([])
+                          try {
+                            const params = new URLSearchParams({ q: mspSearchQuery, limit: '20' })
+                            const res = await fetch(`/api/admin/search?${params}`)
+                            const data = await res.json()
+                            if (data.success && data.results?.participants) {
+                              setMspSearchResults(data.results.participants.map((p: Record<string, unknown>) => ({
+                                id: p.id as string,
+                                username: p.username as string,
+                                displayName: p.display_name as string || p.username as string,
+                                campaignId: p.campaign_id as string,
+                                campaignName: (p as Record<string, unknown>).campaign_name as string || 'Unknown',
+                                msp: p.msp as number || 0,
+                                rank: p.rank as number | null,
+                              })))
+                            }
+                          } catch (error) {
+                            console.error('Search failed:', error)
+                          } finally {
+                            setMspSearching(false)
+                          }
+                        }}
+                        disabled={mspSearching || mspSearchQuery.length < 2}
+                        className="px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/30 rounded-lg text-amber-400 transition-colors disabled:opacity-50"
+                      >
+                        {mspSearching ? <Loader2 className="w-5 h-5 animate-spin" /> : <Search className="w-5 h-5" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Search Results */}
+                  {mspSearchResults.length > 0 && (
+                    <div className="bg-black/30 border border-gray-800 rounded-lg overflow-hidden">
+                      <div className="max-h-64 overflow-y-auto">
+                        {mspSearchResults.map((participant) => (
+                          <div
+                            key={participant.id}
+                            className="flex items-center justify-between p-3 border-b border-gray-800 last:border-b-0 hover:bg-gray-800/50"
+                          >
+                            <div>
+                              <div className="font-medium text-white">@{participant.username}</div>
+                              <div className="text-xs text-gray-500">
+                                Rank #{participant.rank || '?'} • {participant.msp} MSP
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <input
+                                type="number"
+                                placeholder="+/- MSP"
+                                className="w-24 bg-black/50 border border-gray-700 rounded px-2 py-1 text-sm text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none"
+                                onChange={(e) => setMspAdjustment(parseInt(e.target.value) || 0)}
+                              />
+                              <button
+                                onClick={async () => {
+                                  if (mspAdjustment === 0) return
+                                  setAdjustingMsp(true)
+                                  setMspAdjustResult(null)
+                                  try {
+                                    const res = await fetch('/api/admin/adjust-msp', {
+                                      method: 'POST',
+                                      headers: { 'Content-Type': 'application/json' },
+                                      body: JSON.stringify({
+                                        participantId: participant.id,
+                                        campaignId: participant.campaignId,
+                                        adjustment: mspAdjustment,
+                                        reason: mspReason || 'Admin adjustment',
+                                      }),
+                                    })
+                                    const data = await res.json()
+                                    setMspAdjustResult(data)
+                                    if (data.success) {
+                                      // Update local state
+                                      setMspSearchResults(prev => prev.map(p => 
+                                        p.id === participant.id 
+                                          ? { ...p, msp: data.participant.newMsp }
+                                          : p
+                                      ))
+                                      fetchMetrics()
+                                    }
+                                  } catch (error) {
+                                    setMspAdjustResult({ error: 'Failed to adjust MSP' })
+                                  } finally {
+                                    setAdjustingMsp(false)
+                                  }
+                                }}
+                                disabled={adjustingMsp || mspAdjustment === 0}
+                                className="px-3 py-1 bg-amber-500 hover:bg-amber-600 text-black text-sm font-medium rounded transition-colors disabled:opacity-50"
+                              >
+                                {adjustingMsp ? '...' : 'Apply'}
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Reason input */}
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">Reason (optional)</label>
+                    <input
+                      type="text"
+                      value={mspReason}
+                      onChange={(e) => setMspReason(e.target.value)}
+                      placeholder="Reason for adjustment..."
+                      className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Result */}
+                {mspAdjustResult && (
+                  <div className={`p-4 rounded-lg ${(mspAdjustResult as Record<string, unknown>).success ? 'bg-green-500/10 border border-green-500/30' : 'bg-red-500/10 border border-red-500/30'}`}>
+                    <pre className="text-sm text-gray-300 overflow-x-auto">
+                      {JSON.stringify(mspAdjustResult, null, 2)}
+                    </pre>
+                  </div>
+                )}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
