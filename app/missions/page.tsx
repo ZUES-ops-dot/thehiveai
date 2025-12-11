@@ -415,41 +415,41 @@ export default function MissionsPage() {
       {isAuthenticated && user?.username && (
         <motion.div variants={itemVariants}>
           <HiveGlowCard glowColor="purple" hover={false}>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between gap-3">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+              <div className="space-y-3">
                 <div>
-                  <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Invite Mission</p>
-                  <h3 className="text-lg font-semibold text-white">Grow the Hive, earn MSP</h3>
-                  <p className="text-sm text-gray-400">
-                    Send your invite link—each verified join grants you a +{inviteBoostValue} MSP pulse.
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-1">Invite Mission</p>
+                  <h3 className="text-xl font-semibold text-white">Grow the hive with one link.</h3>
+                  <p className="text-sm text-gray-400 max-w-md">
+                    Share your invite—every verified onboarding through your link instantly adds <span className="text-white">+{inviteBoostValue} MSP</span> to your total and stacks with streak multipliers.
                   </p>
                 </div>
-                <div className="hidden sm:flex w-12 h-12 rounded-xl bg-hive-purple/20 items-center justify-center">
-                  <LinkIcon className="w-6 h-6 text-hive-purple" />
+                <div className="flex flex-wrap items-center gap-3 text-xs font-semibold">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3 py-1 text-white/80">
+                    <Zap className="w-3 h-3 text-hive-amber" />
+                    Boost per invite: +{inviteBoostValue} MSP
+                  </span>
+                  <span className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3 py-1 text-white/80">
+                    <Sparkles className="w-3 h-3 text-hive-purple" />
+                    Bonus when creator completes onboarding
+                  </span>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-hive-purple/20 border border-hive-purple/40 px-3 py-1 text-xs font-semibold text-hive-purple w-fit">
-                <span className="text-white/80">Boost per invite</span>
-                <span className="text-white">+{inviteBoostValue} MSP</span>
-              </div>
-              <div>
+              <div className="w-full sm:max-w-md">
                 <p className="text-xs text-gray-500 mb-1">Your unique invite link</p>
-                <div className="flex flex-col sm:flex-row gap-2">
+                <div className="flex gap-2 flex-col sm:flex-row">
                   <div className="flex-1 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white break-all">
                     {inviteLink}
                   </div>
                   <button
                     type="button"
                     onClick={handleCopyInvite}
-                    className="inline-flex items-center justify-center gap-1 rounded-lg bg-hive-purple px-4 py-2 text-sm font-semibold text-white shadow-glow-purple"
+                    className="inline-flex items-center justify-center gap-1 rounded-lg bg-white/90 px-4 py-2 text-sm font-semibold text-black hover:bg-white"
                   >
                     <Copy className="w-4 h-4" />
                     {inviteCopied ? 'Copied!' : 'Copy'}
                   </button>
                 </div>
-              </div>
-              <div className="rounded-lg bg-hive-purple/10 border border-hive-purple/30 px-4 py-2 text-xs text-gray-300">
-                Earn bonus MSP when a creator completes onboarding through your link. Stacks with streak multipliers.
               </div>
             </div>
           </HiveGlowCard>
