@@ -852,7 +852,7 @@ export default function AdminDashboard() {
                       setScrapeInProgress(true)
                       setScrapeResult(null)
                       try {
-                        const body: Record<string, unknown> = { maxTweets: 30, headless: true }
+                        const body: Record<string, unknown> = { maxTweets: 30, headless: false }
                         if (selectedCampaign !== 'all') {
                           const campaign = campaigns.find(c => c.id === selectedCampaign)
                           if (campaign) body.projectTag = campaign.projectTag

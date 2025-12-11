@@ -8,6 +8,9 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { runScraper, scrapeSingleTweet } from '@/scraper'
+
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 import { getActiveCampaigns, getCampaignById } from '@/lib/supabase/campaigns'
 import { getParticipantByUsername, incrementParticipantStats, recalculateRanks } from '@/lib/supabase/participants'
 import { isTweetTracked, recordPostEvent } from '@/lib/supabase/tracking'
@@ -22,7 +25,7 @@ export async function POST(request: NextRequest) {
     const { 
       projectTag,
       maxTweets = 30,
-      headless = true,
+      headless = false,  // Default to visible browser for login
     } = body
 
     // Get campaigns to scrape

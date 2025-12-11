@@ -1,36 +1,57 @@
 /**
- * Puppeteer Browser Setup with Stealth
+ * Puppeteer Browser Setup
  * 
  * Configures browser for X scraping with anti-detection measures.
+ * Based on proven patterns from X(GARTH) bot.
  */
 
-import puppeteer from 'puppeteer-extra'
-import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+import puppeteer from 'puppeteer'
 import type { Browser, Page } from 'puppeteer'
 import * as fs from 'fs'
 import * as path from 'path'
 import type { BrowserConfig } from './types'
 
-// Add stealth plugin
-puppeteer.use(StealthPlugin())
+// Desktop user agent (Chrome on Windows)
+const DESKTOP_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
 
-// Mobile user agent (less aggressive rate limiting)
-const MOBILE_USER_AGENT = 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1'
-
-// Desktop user agent fallback
-const DESKTOP_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+// Profile directory for cookie persistence
+const PROFILE_DIR = './scraper/.puppeteer_profile'
 
 /**
- * Create a new browser instance with stealth configuration
+ * Find Chrome executable path
  */
-export async function createBrowser(config: BrowserConfig = { headless: true }): Promise<Browser> {
+function findChromePath(): string | undefined {
+  const username = process.env.USERNAME || process.env.USER || ''
+  const candidatePaths = [
+    process.env.CHROME_PATH,
+    'C:/Program Files/Google/Chrome/Application/chrome.exe',
+    `C:/Users/${username}/AppData/Local/Google/Chrome/Application/chrome.exe`,
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    '/usr/bin/google-chrome',
+    '/usr/bin/chromium-browser',
+  ].filter(Boolean) as string[]
+
+  return candidatePaths.find(p => fs.existsSync(p))
+}
+
+/**
+ * Create a new browser instance with anti-detection
+ */
+export async function createBrowser(config: BrowserConfig = { headless: false }): Promise<Browser> {
   const args = [
+    '--start-maximized',
     '--no-sandbox',
     '--disable-setuid-sandbox',
     '--disable-dev-shm-usage',
-    '--disable-accelerated-2d-canvas',
     '--disable-gpu',
-    '--window-size=414,896', // iPhone viewport
+    '--disable-infobars',
+    '--window-position=0,0',
+    '--ignore-certificate-errors',
+    '--ignore-certificate-errors-spki-list',
+    '--disable-features=IsolateOrigins,site-per-process',
+    '--disable-blink-features=AutomationControlled',
+    '--disable-web-security',
+    '--allow-running-insecure-content',
   ]
 
   // Add proxy if configured
@@ -38,46 +59,48 @@ export async function createBrowser(config: BrowserConfig = { headless: true }):
     args.push(`--proxy-server=${config.proxy.host}:${config.proxy.port}`)
   }
 
+  const chromePath = findChromePath()
+  if (!chromePath) {
+    console.error('[Browser] Chrome not found. Set CHROME_PATH in .env')
+    throw new Error('Chrome executable not found')
+  }
+  console.log(`[Browser] Using Chrome: ${chromePath}`)
+
   const browser = await puppeteer.launch({
     headless: config.headless,
+    defaultViewport: null,
+    userDataDir: PROFILE_DIR,
+    executablePath: chromePath,
     args,
   })
   return browser
 }
 
 /**
- * Create a new page with mobile configuration
+ * Create a new page with desktop configuration and anti-detection
  */
-export async function createPage(browser: Browser, useMobile = true): Promise<Page> {
+export async function createPage(browser: Browser): Promise<Page> {
   const page = await browser.newPage()
 
-  // Set user agent
-  await page.setUserAgent(useMobile ? MOBILE_USER_AGENT : DESKTOP_USER_AGENT)
-
-  // Set viewport (iPhone dimensions)
-  await page.setViewport({
-    width: 414,
-    height: 896,
-    deviceScaleFactor: 2,
-    isMobile: useMobile,
-    hasTouch: useMobile,
-  })
+  // Set desktop user agent
+  await page.setUserAgent(DESKTOP_USER_AGENT)
 
   // Set extra headers
   await page.setExtraHTTPHeaders({
     'Accept-Language': 'en-US,en;q=0.9',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
   })
 
-  // Block unnecessary resources to speed up scraping
-  await page.setRequestInterception(true)
-  page.on('request', (req) => {
-    const resourceType = req.resourceType()
-    // Block images, fonts, and media to speed up loading
-    if (['image', 'font', 'media'].includes(resourceType)) {
-      req.abort()
-    } else {
-      req.continue()
+  // Anti-detection: remove webdriver flag and add Chrome properties
+  await page.evaluateOnNewDocument(() => {
+    // Remove webdriver flag
+    Object.defineProperty(navigator, 'webdriver', { get: () => false })
+    // Set languages
+    Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] })
+    // Fake plugins
+    Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5] })
+    // Add chrome object
+    if (!(window as any).chrome) {
+      (window as any).chrome = { runtime: {} }
     }
   })
 

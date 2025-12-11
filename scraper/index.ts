@@ -3,23 +3,84 @@
  * 
  * Coordinates browser, search, and stats modules to scrape
  * campaign posts from X.
+ * Based on proven patterns from X(GARTH) bot.
  */
 
 import { createBrowser, createPage, loadCookies, saveCookies, randomDelay } from './browser'
 import { searchCampaignPosts, extractTweetId } from './search'
 import { scrapeTweetStats, validateTweetHashtags } from './stats'
 import type { ScrapingOptions, ScrapingResult, CampaignScrapingResult, ScrapedTweet } from './types'
+import type { Page } from 'puppeteer'
 
-// Default options
+// Default options - headless FALSE by default so user can login
 const DEFAULT_OPTIONS: Required<ScrapingOptions> = {
   projectTags: [],
   maxTweets: 50,
-  headless: true,
+  headless: false,  // Changed to false - need visible browser for login
   delayMs: 3000,
 }
 
 // Cookies path for session persistence
 const COOKIES_PATH = './scraper/.cookies.json'
+
+/**
+ * Check if user is logged into X
+ */
+async function isLoggedIn(page: Page): Promise<boolean> {
+  try {
+    // Check for login page indicators (if present, NOT logged in)
+    const loginIndicators = [
+      'input[name="text"]',
+      'input[name="password"]',
+      'div[data-testid="LoginForm_Login_Button"]',
+      'input[autocomplete="username"]',
+    ]
+    for (const sel of loginIndicators) {
+      const el = await page.$(sel)
+      if (el) {
+        console.log(`[Scraper] Login page detected (found ${sel})`)
+        return false
+      }
+    }
+
+    // Check for logged-in UI elements
+    const loggedInSelectors = [
+      'a[data-testid="AppTabBar_Notifications_Link"]',
+      'div[data-testid="SideNav_AccountSwitcher_Button"]',
+      'a[data-testid="AppTabBar_Home_Link"]',
+      'div[data-testid="tweetButtonInline"]',
+    ]
+    for (const sel of loggedInSelectors) {
+      const el = await page.$(sel)
+      if (el) {
+        console.log(`[Scraper] ✅ Logged in (found ${sel})`)
+        return true
+      }
+    }
+  } catch {}
+  console.log('[Scraper] ❓ Could not determine login status')
+  return false
+}
+
+/**
+ * Wait for user to login manually
+ */
+async function waitForLogin(page: Page, timeoutMs = 120000): Promise<boolean> {
+  console.log('[Scraper] ⚠️ NOT LOGGED IN - Please login in the browser window')
+  console.log('[Scraper] Waiting up to 2 minutes for login...')
+  
+  const startTime = Date.now()
+  while (Date.now() - startTime < timeoutMs) {
+    await new Promise(r => setTimeout(r, 3000))
+    if (await isLoggedIn(page)) {
+      console.log('[Scraper] ✅ Login detected!')
+      return true
+    }
+  }
+  
+  console.log('[Scraper] ❌ Login timeout - please try again')
+  return false
+}
 
 /**
  * Run the scraper for specified campaigns
@@ -49,12 +110,36 @@ export async function runScraper(options: ScrapingOptions): Promise<ScrapingResu
   let browser
   
   try {
-    // Create browser
+    // Create browser (visible by default)
     browser = await createBrowser({ headless: opts.headless })
     const page = await createPage(browser)
     
-    // Try to load existing cookies
-    await loadCookies(page, COOKIES_PATH)
+    // Navigate to X home first
+    console.log('[Scraper] Loading x.com...')
+    await page.goto('https://x.com/home', { waitUntil: 'domcontentloaded', timeout: 30000 })
+    await new Promise(r => setTimeout(r, 3000))
+    
+    // Check login status
+    if (!await isLoggedIn(page)) {
+      // Wait for manual login
+      const loggedIn = await waitForLogin(page)
+      if (!loggedIn) {
+        result.results.push({
+          campaignId: '',
+          projectTag: 'login',
+          tweetsFound: 0,
+          tweetsRecorded: 0,
+          totalMspAwarded: 0,
+          errors: ['Login required - please login in the browser window and try again'],
+          tweets: [],
+        })
+        result.completedAt = new Date().toISOString()
+        await browser.close()
+        return result
+      }
+    }
+    
+    console.log('[Scraper] ✅ Session authenticated, starting scrape...')
     
     // Process each campaign
     for (const projectTag of opts.projectTags) {
