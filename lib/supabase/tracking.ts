@@ -64,6 +64,23 @@ export async function isTweetTracked(tweetId: string): Promise<boolean> {
 }
 
 /**
+ * Get existing post data by tweet ID
+ */
+export async function getPostByTweetId(tweetId: string): Promise<PostEvent | null> {
+  const supabase = getSupabaseServerClient()
+  const { data, error } = await supabase
+    .from('post_events')
+    .select('*')
+    .eq('tweet_id', tweetId)
+    .single()
+
+  if (error && error.code !== 'PGRST116') {
+    console.error('Failed to get post:', error)
+  }
+  return data ?? null
+}
+
+/**
  * Record a new post event
  */
 export async function recordPostEvent(event: {

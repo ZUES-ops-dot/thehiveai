@@ -13,7 +13,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 import { getActiveCampaigns, getCampaignById } from '@/lib/supabase/campaigns'
 import { getParticipantByUsername, incrementParticipantStats, recalculateRanks } from '@/lib/supabase/participants'
-import { isTweetTracked, recordPostEvent, updatePostMetrics } from '@/lib/supabase/tracking'
+import { isTweetTracked, recordPostEvent, updatePostMetrics, getPostByTweetId } from '@/lib/supabase/tracking'
 import { calculatePostMspFull } from '@/lib/engine/mindshare-engine'
 
 /**
@@ -98,10 +98,15 @@ export async function POST(request: NextRequest) {
           }
 
           // Check if already tracked
-          const alreadyTracked = await isTweetTracked(tweet.id)
+          const existingPost = await getPostByTweetId(tweet.id)
           
-          if (alreadyTracked) {
-            // Update metrics only (keep MSP unchanged) - hydrate activity feed
+          if (existingPost) {
+            // Calculate engagement delta
+            const oldEngagement = (existingPost.likes ?? 0) + (existingPost.retweets ?? 0) + (existingPost.replies ?? 0) + (existingPost.quotes ?? 0)
+            const newEngagement = tweet.likes + tweet.retweets + tweet.replies + tweet.quotes
+            const engagementDelta = newEngagement - oldEngagement
+            
+            // Update metrics
             await updatePostMetrics(tweet.id, {
               likes: tweet.likes,
               retweets: tweet.retweets,
@@ -109,7 +114,39 @@ export async function POST(request: NextRequest) {
               quotes: tweet.quotes,
             })
             updatedCount++
-            console.log(`[Scrape API] Updated metrics for tweet ${tweet.id}`)
+            
+            // Award fractional MSP for engagement increase (25% of what new engagement would earn)
+            // This prevents farming old posts while still rewarding continued engagement
+            if (engagementDelta > 0) {
+              const ENGAGEMENT_BONUS_RATE = 0.25 // 25% of normal MSP rate
+              
+              // Get participant for this post
+              const participant = await getParticipantByUsername(campaignId, tweet.author)
+              if (participant) {
+                // Calculate what the delta engagement would be worth
+                const deltaMsp = calculatePostMspFull({
+                  likes: Math.max(0, tweet.likes - (existingPost.likes ?? 0)),
+                  retweets: Math.max(0, tweet.retweets - (existingPost.retweets ?? 0)),
+                  replies: Math.max(0, tweet.replies - (existingPost.replies ?? 0)),
+                  quotes: Math.max(0, tweet.quotes - (existingPost.quotes ?? 0)),
+                  followersCount: participant.followers_count ?? 100,
+                  projectTag: campaign.project_tag,
+                  postText: tweet.text,
+                  postedAt: tweet.timestamp,
+                  campaignStartDate: campaign.start_date,
+                })
+                
+                // Award fractional bonus
+                const bonusMsp = Math.round(deltaMsp * ENGAGEMENT_BONUS_RATE)
+                if (bonusMsp > 0) {
+                  await incrementParticipantStats(campaignId, participant.user_id, bonusMsp, 0)
+                  totalMsp += bonusMsp
+                  console.log(`[Scrape API] Engagement bonus for tweet ${tweet.id}: +${engagementDelta} engagement = +${bonusMsp} MSP (25% rate)`)
+                }
+              }
+            }
+            
+            console.log(`[Scrape API] Updated metrics for tweet ${tweet.id} (delta: ${engagementDelta > 0 ? '+' : ''}${engagementDelta})`)
             continue
           }
 
