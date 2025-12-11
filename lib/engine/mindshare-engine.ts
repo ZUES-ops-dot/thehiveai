@@ -94,6 +94,8 @@ export const CONTENT_TYPE_BONUSES: Record<string, number> = {
 
 export const EARLY_AMPLIFICATION_BONUS = 1.5 // +50% for first 24h
 
+export const POST_MSP_MULTIPLIER = 5 // Global multiplier for post MSP
+
 export const DECAY_RATE = 0.10 // 10% per day after 7 days
 export const DECAY_START_DAYS = 7
 
@@ -117,9 +119,10 @@ export function calculateReachScore(input: MindshareInput): number {
   const { uniqueUsersReached, totalImpressions, newFollowersGained } = input
   
   // Normalize each metric (logarithmic scale to handle large numbers)
-  const userScore = Math.min(100, Math.log10(uniqueUsersReached + 1) * 25)
-  const impressionScore = Math.min(100, Math.log10(totalImpressions + 1) * 20)
-  const followerScore = Math.min(100, newFollowersGained * 5)
+  // Cap raised to 1000 for higher post MSP potential
+  const userScore = Math.min(1000, Math.log10(uniqueUsersReached + 1) * 250)
+  const impressionScore = Math.min(1000, Math.log10(totalImpressions + 1) * 200)
+  const followerScore = Math.min(1000, newFollowersGained * 50)
   
   // Weighted average
   return (userScore * 0.5) + (impressionScore * 0.3) + (followerScore * 0.2)
@@ -157,8 +160,8 @@ export function calculateEngagementScore(input: MindshareInput): number {
     return 0 // Suspicious engagement pattern
   }
   
-  // Logarithmic scale
-  return Math.min(100, Math.log10(weightedEngagement + 1) * 30)
+  // Logarithmic scale - cap raised to 1000
+  return Math.min(1000, Math.log10(weightedEngagement + 1) * 300)
 }
 
 /**
@@ -180,8 +183,8 @@ export function calculateRelevanceScore(input: MindshareInput): number {
   
   const overlapRatio = matchingKeywords.length / narrativeKeywords.length
   
-  // Score: 0-100 based on overlap
-  return Math.min(100, overlapRatio * 100 * 1.2) // Allow up to 20% bonus for extra keywords
+  // Score: 0-1000 based on overlap
+  return Math.min(1000, overlapRatio * 1000 * 1.2) // Allow up to 20% bonus for extra keywords
 }
 
 /**
@@ -191,13 +194,13 @@ export function calculateRelevanceScore(input: MindshareInput): number {
 export function calculateCredibilityScore(input: MindshareInput): number {
   const { creatorCredibilityScore, creatorTier } = input
   
-  // Base credibility (0-1 input -> 0-70 output)
-  const baseCredibility = creatorCredibilityScore * 70
+  // Base credibility (0-1 input -> 0-700 output)
+  const baseCredibility = creatorCredibilityScore * 700
   
-  // Tier bonus (0-30)
-  const tierBonus = TIER_MULTIPLIERS[creatorTier] * 10
+  // Tier bonus (0-300)
+  const tierBonus = TIER_MULTIPLIERS[creatorTier] * 100
   
-  return Math.min(100, baseCredibility + tierBonus)
+  return Math.min(1000, baseCredibility + tierBonus)
 }
 
 /**
@@ -214,7 +217,7 @@ export function calculateVelocityScore(input: MindshareInput): number {
   const ageAdjustment = Math.max(0.5, 1 - (contentAgeHours / 168)) // 168 hours = 1 week
   const adjustedVelocity = engagementVelocity * ageAdjustment
   
-  return Math.min(100, Math.log10(adjustedVelocity + 1) * 40)
+  return Math.min(1000, Math.log10(adjustedVelocity + 1) * 400)
 }
 
 /**
@@ -537,5 +540,6 @@ export function calculatePostMspFull(input: TrackedPostInput): number {
   // Run through full engine
   const result = calculateMsp(engineInput)
   
-  return result.finalMsp
+  // Apply global post multiplier
+  return result.finalMsp * POST_MSP_MULTIPLIER
 }
