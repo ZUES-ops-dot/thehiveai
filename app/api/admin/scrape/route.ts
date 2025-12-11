@@ -13,7 +13,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 import { getActiveCampaigns, getCampaignById } from '@/lib/supabase/campaigns'
 import { getParticipantByUsername, incrementParticipantStats, recalculateRanks } from '@/lib/supabase/participants'
-import { isTweetTracked, recordPostEvent } from '@/lib/supabase/tracking'
+import { isTweetTracked, recordPostEvent, updatePostMetrics } from '@/lib/supabase/tracking'
 import { calculatePostMspFull } from '@/lib/engine/mindshare-engine'
 
 /**
@@ -91,8 +91,16 @@ export async function POST(request: NextRequest) {
         try {
           // Check if already tracked
           const alreadyTracked = await isTweetTracked(tweet.id)
+          
           if (alreadyTracked) {
-            console.log(`[Scrape API] Tweet ${tweet.id} already tracked, skipping`)
+            // Update metrics only (keep MSP unchanged) - hydrate activity feed
+            await updatePostMetrics(tweet.id, {
+              likes: tweet.likes,
+              retweets: tweet.retweets,
+              replies: tweet.replies,
+              quotes: tweet.quotes,
+            })
+            console.log(`[Scrape API] Updated metrics for tweet ${tweet.id}`)
             continue
           }
 

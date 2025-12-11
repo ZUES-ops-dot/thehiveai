@@ -169,3 +169,34 @@ export async function getCampaignPostCount(campaignId: string): Promise<number> 
   }
   return count ?? 0
 }
+
+/**
+ * Update metrics for an existing post (keeps MSP unchanged)
+ * Used to hydrate activity feed with fresh engagement numbers
+ */
+export async function updatePostMetrics(
+  tweetId: string,
+  metrics: {
+    likes: number
+    retweets: number
+    replies: number
+    quotes: number
+  }
+): Promise<boolean> {
+  const supabase = getSupabaseServerClient()
+  const { error } = await supabase
+    .from('post_events')
+    .update({
+      likes: metrics.likes,
+      retweets: metrics.retweets,
+      replies: metrics.replies,
+      quotes: metrics.quotes,
+    })
+    .eq('tweet_id', tweetId)
+
+  if (error) {
+    console.error('Failed to update post metrics:', error)
+    return false
+  }
+  return true
+}
