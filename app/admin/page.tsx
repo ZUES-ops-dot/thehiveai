@@ -96,7 +96,16 @@ export default function AdminDashboard() {
 
   // Scrape state
   const [scrapeInProgress, setScrapeInProgress] = useState(false)
-  const [scrapeResult, setScrapeResult] = useState<Record<string, unknown> | null>(null)
+  const [scrapeResult, setScrapeResult] = useState<{
+    success?: boolean
+    error?: string
+    summary?: {
+      campaignsProcessed: number
+      totalTweetsFound: number
+      totalTweetsRecorded: number
+      totalMspAwarded: number
+    }
+  } | null>(null)
 
   // Add post state
   const [addPostUrl, setAddPostUrl] = useState('')
@@ -901,23 +910,23 @@ export default function AdminDashboard() {
                     {scrapeResult.success ? '✓ Scrape Complete' : '✗ Scrape Failed'}
                   </h3>
                   
-                  {scrapeResult.summary && typeof scrapeResult.summary === 'object' && (
+                  {scrapeResult.summary && (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                       <div className="bg-black/30 rounded-lg p-3">
                         <div className="text-xs text-gray-500">Campaigns</div>
-                        <div className="text-xl font-bold text-white">{String((scrapeResult.summary as Record<string, number>).campaignsProcessed ?? 0)}</div>
+                        <div className="text-xl font-bold text-white">{scrapeResult.summary.campaignsProcessed}</div>
                       </div>
                       <div className="bg-black/30 rounded-lg p-3">
                         <div className="text-xs text-gray-500">Tweets Found</div>
-                        <div className="text-xl font-bold text-blue-400">{String((scrapeResult.summary as Record<string, number>).totalTweetsFound ?? 0)}</div>
+                        <div className="text-xl font-bold text-blue-400">{scrapeResult.summary.totalTweetsFound}</div>
                       </div>
                       <div className="bg-black/30 rounded-lg p-3">
                         <div className="text-xs text-gray-500">Tweets Recorded</div>
-                        <div className="text-xl font-bold text-green-400">{String((scrapeResult.summary as Record<string, number>).totalTweetsRecorded ?? 0)}</div>
+                        <div className="text-xl font-bold text-green-400">{scrapeResult.summary.totalTweetsRecorded}</div>
                       </div>
                       <div className="bg-black/30 rounded-lg p-3">
                         <div className="text-xs text-gray-500">MSP Awarded</div>
-                        <div className="text-xl font-bold text-amber-400">{formatNumber((scrapeResult.summary as Record<string, number>).totalMspAwarded ?? 0)}</div>
+                        <div className="text-xl font-bold text-amber-400">{formatNumber(scrapeResult.summary.totalMspAwarded)}</div>
                       </div>
                     </div>
                   )}
