@@ -854,6 +854,26 @@ export default function AdminDashboard() {
                     X may rate-limit if used too frequently.
                   </p>
                 </div>
+
+                {/* Campaign Selector */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-400 mb-2">Select Campaign to Scrape</label>
+                  <select
+                    value={selectedCampaign}
+                    onChange={(e) => setSelectedCampaign(e.target.value)}
+                    className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white w-full max-w-md"
+                  >
+                    <option value="all">All Campaigns</option>
+                    {campaigns.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        #{c.projectTag} - {c.name}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Will search X for: #HiveAI #{selectedCampaign === 'all' ? '[all campaign tags]' : campaigns.find(c => c.id === selectedCampaign)?.projectTag || ''}
+                  </p>
+                </div>
                 
                 <div className="flex gap-4">
                   <button
