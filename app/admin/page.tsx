@@ -19,6 +19,7 @@ import {
   ChevronDown,
   ChevronUp,
   ExternalLink,
+  Plus,
 } from 'lucide-react'
 
 interface CampaignMetric {
@@ -90,7 +91,18 @@ export default function AdminDashboard() {
 
   // UI state
   const [expandedCampaign, setExpandedCampaign] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'overview' | 'tracking' | 'backfill' | 'search'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'tracking' | 'backfill' | 'search' | 'addpost'>('overview')
+
+  // Add post state
+  const [addPostUrl, setAddPostUrl] = useState('')
+  const [addPostContent, setAddPostContent] = useState('')
+  const [addPostUsername, setAddPostUsername] = useState('')
+  const [addPostLikes, setAddPostLikes] = useState(0)
+  const [addPostRetweets, setAddPostRetweets] = useState(0)
+  const [addPostReplies, setAddPostReplies] = useState(0)
+  const [addPostQuotes, setAddPostQuotes] = useState(0)
+  const [addingPost, setAddingPost] = useState(false)
+  const [addPostResult, setAddPostResult] = useState<Record<string, unknown> | null>(null)
 
   const fetchMetrics = useCallback(async () => {
     try {
@@ -248,6 +260,7 @@ export default function AdminDashboard() {
               { id: 'tracking', label: 'Run Tracking', icon: Play },
               { id: 'backfill', label: 'Backfill MSP', icon: Database },
               { id: 'search', label: 'Search', icon: Search },
+              { id: 'addpost', label: 'Add Post', icon: Plus },
             ].map(tab => (
               <button
                 key={tab.id}
@@ -628,6 +641,176 @@ export default function AdminDashboard() {
                       <p className="text-gray-400">No results found for "{searchQuery}"</p>
                     </div>
                   )}
+                </div>
+              )}
+            </motion.div>
+          )}
+
+          {/* Add Post Tab */}
+          {activeTab === 'addpost' && (
+            <motion.div
+              key="addpost"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="space-y-6"
+            >
+              <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+                <h2 className="text-lg font-semibold text-amber-400 mb-4">Add Post Manually</h2>
+                <p className="text-gray-400 text-sm mb-6">
+                  Bypass Nitter scraping by manually adding a post. The post must contain both #HiveAI and the campaign hashtag.
+                  The user must already be a participant in the selected campaign.
+                </p>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">Tweet URL *</label>
+                    <input
+                      type="text"
+                      value={addPostUrl}
+                      onChange={(e) => setAddPostUrl(e.target.value)}
+                      placeholder="https://x.com/username/status/123456789"
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">Username *</label>
+                    <input
+                      type="text"
+                      value={addPostUsername}
+                      onChange={(e) => setAddPostUsername(e.target.value)}
+                      placeholder="@username (must be a campaign participant)"
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">Tweet Content *</label>
+                    <textarea
+                      value={addPostContent}
+                      onChange={(e) => setAddPostContent(e.target.value)}
+                      placeholder="Paste the full tweet text here (must include #HiveAI and campaign hashtag)"
+                      rows={4}
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 resize-none"
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div>
+                      <label className="block text-sm text-gray-400 mb-2">Likes</label>
+                      <input
+                        type="number"
+                        value={addPostLikes}
+                        onChange={(e) => setAddPostLikes(parseInt(e.target.value) || 0)}
+                        min={0}
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-gray-400 mb-2">Retweets</label>
+                      <input
+                        type="number"
+                        value={addPostRetweets}
+                        onChange={(e) => setAddPostRetweets(parseInt(e.target.value) || 0)}
+                        min={0}
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-gray-400 mb-2">Replies</label>
+                      <input
+                        type="number"
+                        value={addPostReplies}
+                        onChange={(e) => setAddPostReplies(parseInt(e.target.value) || 0)}
+                        min={0}
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-gray-400 mb-2">Quotes</label>
+                      <input
+                        type="number"
+                        value={addPostQuotes}
+                        onChange={(e) => setAddPostQuotes(parseInt(e.target.value) || 0)}
+                        min={0}
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500"
+                      />
+                    </div>
+                  </div>
+                  
+                  <button
+                    onClick={async () => {
+                      if (!addPostUrl || !addPostContent || !addPostUsername || selectedCampaign === 'all') {
+                        setAddPostResult({ error: 'Please fill all required fields and select a specific campaign' })
+                        return
+                      }
+                      setAddingPost(true)
+                      setAddPostResult(null)
+                      try {
+                        const res = await fetch('/api/admin/add-post', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            tweetUrl: addPostUrl,
+                            campaignId: selectedCampaign,
+                            content: addPostContent,
+                            username: addPostUsername,
+                            likes: addPostLikes,
+                            retweets: addPostRetweets,
+                            replies: addPostReplies,
+                            quotes: addPostQuotes,
+                          }),
+                        })
+                        const data = await res.json()
+                        setAddPostResult(data)
+                        if (data.success) {
+                          // Clear form on success
+                          setAddPostUrl('')
+                          setAddPostContent('')
+                          setAddPostUsername('')
+                          setAddPostLikes(0)
+                          setAddPostRetweets(0)
+                          setAddPostReplies(0)
+                          setAddPostQuotes(0)
+                          fetchMetrics()
+                        }
+                      } catch (error) {
+                        setAddPostResult({ error: 'Failed to add post', details: error instanceof Error ? error.message : 'Unknown' })
+                      } finally {
+                        setAddingPost(false)
+                      }
+                    }}
+                    disabled={addingPost || selectedCampaign === 'all'}
+                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {addingPost ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Adding Post...
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="w-5 h-5" />
+                        Add Post
+                      </>
+                    )}
+                  </button>
+                  
+                  {selectedCampaign === 'all' && (
+                    <p className="text-yellow-400 text-sm">⚠️ Please select a specific campaign above to add a post.</p>
+                  )}
+                </div>
+              </div>
+
+              {addPostResult && (
+                <div className={`bg-gray-900/50 border rounded-xl p-6 ${addPostResult.success ? 'border-green-500/50' : 'border-red-500/50'}`}>
+                  <h3 className={`text-lg font-semibold mb-4 ${addPostResult.success ? 'text-green-400' : 'text-red-400'}`}>
+                    {addPostResult.success ? '✓ Post Added Successfully' : '✗ Failed to Add Post'}
+                  </h3>
+                  <pre className="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm text-gray-300">
+                    {JSON.stringify(addPostResult, null, 2)}
+                  </pre>
                 </div>
               )}
             </motion.div>
