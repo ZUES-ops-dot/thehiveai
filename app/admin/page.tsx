@@ -20,6 +20,7 @@ import {
   ChevronUp,
   ExternalLink,
   Plus,
+  Globe,
 } from 'lucide-react'
 
 interface CampaignMetric {
@@ -91,7 +92,11 @@ export default function AdminDashboard() {
 
   // UI state
   const [expandedCampaign, setExpandedCampaign] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'overview' | 'tracking' | 'backfill' | 'search' | 'addpost'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'tracking' | 'backfill' | 'search' | 'addpost' | 'scrape'>('overview')
+
+  // Scrape state
+  const [scrapeInProgress, setScrapeInProgress] = useState(false)
+  const [scrapeResult, setScrapeResult] = useState<Record<string, unknown> | null>(null)
 
   // Add post state
   const [addPostUrl, setAddPostUrl] = useState('')
@@ -261,6 +266,7 @@ export default function AdminDashboard() {
               { id: 'backfill', label: 'Backfill MSP', icon: Database },
               { id: 'search', label: 'Search', icon: Search },
               { id: 'addpost', label: 'Add Post', icon: Plus },
+              { id: 'scrape', label: 'Scrape X', icon: Globe },
             ].map(tab => (
               <button
                 key={tab.id}
@@ -810,6 +816,114 @@ export default function AdminDashboard() {
                   </h3>
                   <pre className="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm text-gray-300">
                     {JSON.stringify(addPostResult, null, 2)}
+                  </pre>
+                </div>
+              )}
+            </motion.div>
+          )}
+
+          {/* Scrape X Tab */}
+          {activeTab === 'scrape' && (
+            <motion.div
+              key="scrape"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="space-y-6"
+            >
+              <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+                <h2 className="text-lg font-semibold text-amber-400 mb-4">Scrape X (Puppeteer)</h2>
+                <p className="text-gray-400 text-sm mb-6">
+                  Use Puppeteer to scrape posts directly from X. This bypasses Nitter and fetches real-time data including views, likes, retweets, replies, quotes, and bookmarks.
+                  Posts must contain both #HiveAI and the campaign hashtag. Users must be campaign participants.
+                </p>
+                
+                <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 mb-6">
+                  <p className="text-yellow-400 text-sm">
+                    <strong>⚠️ Note:</strong> Puppeteer scraping runs locally and requires Chrome/Chromium. 
+                    It may take several minutes depending on the number of tweets. 
+                    X may rate-limit if used too frequently.
+                  </p>
+                </div>
+                
+                <div className="flex gap-4">
+                  <button
+                    onClick={async () => {
+                      setScrapeInProgress(true)
+                      setScrapeResult(null)
+                      try {
+                        const body: Record<string, unknown> = { maxTweets: 30, headless: true }
+                        if (selectedCampaign !== 'all') {
+                          const campaign = campaigns.find(c => c.id === selectedCampaign)
+                          if (campaign) body.projectTag = campaign.projectTag
+                        }
+                        
+                        const res = await fetch('/api/admin/scrape', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify(body),
+                        })
+                        const data = await res.json()
+                        setScrapeResult(data)
+                        if (data.success) {
+                          fetchMetrics()
+                        }
+                      } catch (error) {
+                        setScrapeResult({ 
+                          success: false, 
+                          error: error instanceof Error ? error.message : 'Unknown error' 
+                        })
+                      } finally {
+                        setScrapeInProgress(false)
+                      }
+                    }}
+                    disabled={scrapeInProgress}
+                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {scrapeInProgress ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Scraping X...
+                      </>
+                    ) : (
+                      <>
+                        <Globe className="w-5 h-5" />
+                        {selectedCampaign === 'all' ? 'Scrape All Campaigns' : 'Scrape Selected Campaign'}
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {scrapeResult && (
+                <div className={`bg-gray-900/50 border rounded-xl p-6 ${scrapeResult.success ? 'border-green-500/50' : 'border-red-500/50'}`}>
+                  <h3 className={`text-lg font-semibold mb-4 ${scrapeResult.success ? 'text-green-400' : 'text-red-400'}`}>
+                    {scrapeResult.success ? '✓ Scrape Complete' : '✗ Scrape Failed'}
+                  </h3>
+                  
+                  {scrapeResult.summary && typeof scrapeResult.summary === 'object' && (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                      <div className="bg-black/30 rounded-lg p-3">
+                        <div className="text-xs text-gray-500">Campaigns</div>
+                        <div className="text-xl font-bold text-white">{String((scrapeResult.summary as Record<string, number>).campaignsProcessed ?? 0)}</div>
+                      </div>
+                      <div className="bg-black/30 rounded-lg p-3">
+                        <div className="text-xs text-gray-500">Tweets Found</div>
+                        <div className="text-xl font-bold text-blue-400">{String((scrapeResult.summary as Record<string, number>).totalTweetsFound ?? 0)}</div>
+                      </div>
+                      <div className="bg-black/30 rounded-lg p-3">
+                        <div className="text-xs text-gray-500">Tweets Recorded</div>
+                        <div className="text-xl font-bold text-green-400">{String((scrapeResult.summary as Record<string, number>).totalTweetsRecorded ?? 0)}</div>
+                      </div>
+                      <div className="bg-black/30 rounded-lg p-3">
+                        <div className="text-xs text-gray-500">MSP Awarded</div>
+                        <div className="text-xl font-bold text-amber-400">{formatNumber((scrapeResult.summary as Record<string, number>).totalMspAwarded ?? 0)}</div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <pre className="bg-black/50 p-4 rounded-lg overflow-x-auto text-sm text-gray-300 max-h-96">
+                    {JSON.stringify(scrapeResult, null, 2)}
                   </pre>
                 </div>
               )}
