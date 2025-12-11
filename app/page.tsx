@@ -468,7 +468,7 @@ export default function DashboardPage() {
                   handle={account.username}
                   avatar={account.profileImageUrl ?? undefined}
                   followers={account.followers}
-                  engagement={account.engagementRate * 100}
+                  engagement={account.engagementRate}
                   viralityScore={account.viralityScore}
                   category={`Rank ${account.rank ?? index + 1}`}
                   delay={index * 0.05}
