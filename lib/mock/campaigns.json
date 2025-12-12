@@ -80,7 +80,7 @@
     "primaryHashtag": "#HiveAI",
     "trackingRule": "Posts must contain BOTH #HiveAI AND the campaign-specific hashtag to be counted",
     "examplePost": "Just discovered @SolXToken - the future of Solana DeFi! 🚀 #HiveAI #SolXToken",
-    "dataSource": "Nitter (free, no API required)",
+    "dataSource": "Mock data",
     "refreshInterval": 60
   }
 }
