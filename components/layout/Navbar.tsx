@@ -11,20 +11,14 @@ import {
   Brain, 
   Flame, 
   Diamond,
-  User,
   Menu,
-  X,
-  Trophy,
-  Target
+  X
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { usePrefersReducedMotion } from '@/lib/hooks/usePrefersReducedMotion'
-import { useMissionStore } from '@/lib/stores/useMissionStore'
 import { 
   fadeInDown, 
   globalTransition, 
-  hoverScale, 
-  tapScale,
   staggerContainer,
   fadeIn
 } from '@/lib/motion/presets'
@@ -39,11 +33,9 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard },
-  { label: 'Swarm Radar', icon: Brain, comingSoon: true, tagline: 'Coming to the Hive' },
-  { href: '/narratives', label: 'Narratives', icon: Flame },
-  { href: '/missions', label: 'Missions', icon: Target },
-  { href: '/leaderboards', label: 'Leaderboards', icon: Trophy },
-  { href: '/projects', label: 'Projects', icon: Diamond },
+  { href: '/swarm-radar', label: 'Swarm Radar', icon: Brain },
+  { href: '/graph', label: 'Graph', icon: Diamond },
+  { href: '/mindshare', label: 'Mindshare', icon: Flame },
 ]
 
 export function Navbar() {
@@ -52,7 +44,6 @@ export function Navbar() {
   const [comingSoonPulse, setComingSoonPulse] = useState<string | null>(null)
   const [headerRippleKey, setHeaderRippleKey] = useState<number | null>(null)
   const prefersReduced = usePrefersReducedMotion()
-  const claimableMissions = useMissionStore((state) => state.claimableMissions)
 
   const triggerComingSoonPulse = (label: string) => {
     setComingSoonPulse(label)
@@ -171,8 +162,6 @@ export function Navbar() {
                 )
               }
 
-              const hasMissionNotification = item.label === 'Missions' && claimableMissions > 0
-              
               return (
                 <Link
                   key={item.href}
@@ -184,41 +173,12 @@ export function Navbar() {
                       'flex items-center gap-2 text-sm font-medium transition-colors',
                       isActive 
                         ? 'text-hive-amber' 
-                        : hasMissionNotification
-                          ? 'text-emerald-400'
-                          : 'text-gray-400 hover:text-white'
+                        : 'text-gray-400 hover:text-white'
                     )}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <div className="relative">
-                      <Icon className={cn('h-4 w-4', hasMissionNotification && 'text-emerald-400')} />
-                      {hasMissionNotification && (
-                        <>
-                          {/* Pulsing glow behind icon */}
-                          <motion.div
-                            className="absolute inset-0 blur-md bg-emerald-400/60 rounded-full"
-                            animate={{ 
-                              scale: [1, 1.5, 1],
-                              opacity: [0.6, 0.3, 0.6]
-                            }}
-                            transition={{ 
-                              duration: 1.5,
-                              repeat: Infinity,
-                              ease: 'easeInOut'
-                            }}
-                          />
-                          {/* Badge with count */}
-                          <motion.span
-                            className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] font-bold text-white"
-                            animate={{ scale: [1, 1.1, 1] }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                          >
-                            {claimableMissions}
-                          </motion.span>
-                        </>
-                      )}
-                    </div>
+                    <Icon className="h-4 w-4" />
                     <span>{item.label}</span>
                   </motion.div>
                   
@@ -237,18 +197,6 @@ export function Navbar() {
 
           {/* Right side: Profile + Mobile Menu */}
           <div className="flex items-center gap-2">
-            {/* Creator Profile Button */}
-            <Link href="/profile">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-hive-amber/20 bg-hive-amber/5 text-gray-400 hover:text-white hover:border-hive-amber/40 transition-all cursor-pointer"
-              >
-                <User className="h-4 w-4" />
-                <span className="text-sm hidden lg:inline">My Profile</span>
-              </motion.div>
-            </Link>
-
             {/* Mobile Menu Button */}
             <motion.button
               whileTap={{ scale: 0.95 }}
@@ -311,30 +259,10 @@ export function Navbar() {
                             'flex flex-col items-center gap-1 p-2 rounded-lg text-center transition-all duration-fast ease-hive relative',
                             isActive 
                               ? 'bg-hive-amber/10 text-hive-amber' 
-                              : item.label === 'Missions' && claimableMissions > 0
-                                ? 'text-emerald-400 bg-emerald-500/10'
-                                : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                              : 'text-gray-400 hover:bg-white/5 hover:text-white'
                           )}
                         >
-                          <div className="relative">
-                            <Icon className="h-5 w-5" />
-                            {item.label === 'Missions' && claimableMissions > 0 && (
-                              <>
-                                <motion.div
-                                  className="absolute inset-0 blur-md bg-emerald-400/60 rounded-full"
-                                  animate={{ scale: [1, 1.5, 1], opacity: [0.6, 0.3, 0.6] }}
-                                  transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                                />
-                                <motion.span
-                                  className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-emerald-500 text-[8px] font-bold text-white"
-                                  animate={{ scale: [1, 1.1, 1] }}
-                                  transition={{ duration: 1, repeat: Infinity }}
-                                >
-                                  {claimableMissions}
-                                </motion.span>
-                              </>
-                            )}
-                          </div>
+                          <Icon className="h-5 w-5" />
                           <span className="text-[10px] font-medium">{item.label}</span>
                         </Link>
                       )}

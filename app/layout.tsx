@@ -8,7 +8,7 @@ import { PageTransitionWrapper } from '@/components/layout/PageTransition'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
-const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+const appUrl = 'http://localhost:3000'
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
