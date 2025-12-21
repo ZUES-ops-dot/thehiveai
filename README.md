@@ -1,4 +1,4 @@
-# 🐝 HIVE AI
+#  HIVE AI
 
 > An animated, living Solana social intelligence hive.
 
@@ -10,12 +10,12 @@
 
 Hive AI is a living, animated, multi-node brain that visualizes the Solana ecosystem as a glowing, evolving swarm. The front-end features:
 
-- 🌟 **Glowing hive nodes** with pulse animations
-- 🔗 **Animated network connections** between entities
-- ✨ **Floating particles** in the background
-- 🎨 **Reactive background gradients**
-- 🚀 **Smooth page transitions**
-- 🖱️ **Hover motion everywhere**
+-  **Glowing hive nodes** with pulse animations
+-  **Animated network connections** between entities
+-  **Floating particles** in the background
+-  **Reactive background gradients**
+-  **Smooth page transitions**
+-  **Hover motion everywhere**
 
 ## Tech Stack
 
