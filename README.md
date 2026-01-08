@@ -1,10 +1,16 @@
-#  HIVE AI
+# TheHiveAI
+> Real-time Twitter engagement analytics with AI-powered content insights
 
-> An animated, living Solana social intelligence hive.
+Built for creators tracking multi-platform campaigns across Twitter/X.
 
-![Hive AI](https://img.shields.io/badge/Solana-Social_Intelligence-amber?style=for-the-badge)
-![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge)
+## Features
+- Live tweet performance monitoring (impressions, engagement rate)
+- Thread analytics with virality scoring
+- Content calendar with optimal posting times
+- Competitor benchmarking dashboard
+
+## Stack
+Next.js • Twitter API v2 • Supabase • Vercel Analytics
 
 ## Overview
 
