@@ -1,82 +1,75 @@
-# TheHiveAI
-> Real-time Twitter engagement analytics with AI-powered content insights
+# Hive AI — Animated Solana Network Visualization
 
-Built for creators tracking multi-platform campaigns across Twitter/X.
+![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=nextdotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind-3.x-38B2AC?logo=tailwindcss&logoColor=white)
+![Radix UI](https://img.shields.io/badge/Radix-UI-161618)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Features
-- Live tweet performance monitoring (impressions, engagement rate)
-- Thread analytics with virality scoring
-- Content calendar with optimal posting times
-- Competitor benchmarking dashboard
+> A living, animated visualization of the Solana ecosystem rendered as a glowing hive of nodes — pulse animations, reactive backgrounds, smooth transitions, and motion-everywhere UX. Built to make ecosystem mapping feel alive.
 
-## Stack
-Next.js • Twitter API v2 • Supabase • Vercel Analytics
+**[Live Demo](#)** · **[Stack](#tech-stack)** · **[Quick Start](#quick-start)**
 
-## Overview
+---
 
-Hive AI is a living, animated, multi-node brain that visualizes the Solana ecosystem as a glowing, evolving swarm. The front-end features:
+## What problem this solves
 
--  **Glowing hive nodes** with pulse animations
--  **Animated network connections** between entities
--  **Floating particles** in the background
--  **Reactive background gradients**
--  **Smooth page transitions**
--  **Hover motion everywhere**
+Most ecosystem maps are static infographics that age the day they ship. Hive AI treats the Solana ecosystem as a living organism: nodes pulse, connections glow as activity flows, and the layout reacts to user focus. The goal is to make the network feel **observed in real time**, not photographed once.
 
-## Tech Stack
+## Highlights
 
-| Technology | Purpose |
-|------------|---------|
-| **Next.js 14** | React framework with App Router |
-| **Tailwind CSS** | Utility-first styling |
-| **Framer Motion** | Animations & transitions |
-| **shadcn/ui** | UI component primitives |
-| **tsparticles** | Ambient particle effects |
-| **Recharts** | Data visualization |
-| **Lucide React** | Icon system |
+- **Animated hive nodes** — pulse animations driven by actual network activity
+- **Reactive connections** — edges glow and animate when entities interact
+- **Floating particle system** — `tsparticles` background layer for ambient motion
+- **Reactive gradient backgrounds** — color shifts respond to scroll position and active section
+- **Motion everywhere** — Framer Motion-driven hover, page-transition, and entrance animations
+- **Radix-based primitives** — accessible dialogs, dropdowns, tabs, tooltips, scroll-areas
+- **Dark-first design** — tuned for OLED panels and ambient lighting
 
-## Getting Started
+## Tech stack
 
-### Prerequisites
+| Layer | Tech |
+|-------|------|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript 5.x |
+| Styling | Tailwind CSS 3.x with custom theme |
+| Components | Radix UI (avatar, dropdown, progress, tabs, tooltip, scroll-area, separator, slot) |
+| Animation | Framer Motion + `tsparticles` |
+| Icons | Lucide React |
+| Deploy target | Vercel |
 
-- Node.js 18+
-- npm or yarn
-
-### Installation
+## Quick Start
 
 ```bash
-# Install dependencies
+git clone https://github.com/ZUES-ops-dot/thehiveai.git
+cd thehiveai
 npm install
-
-# Run development server
 npm run dev
+```
 
-# Build for production
+Open <http://localhost:3000>.
+
+### Build for production
+
+```bash
 npm run build
-
-# Start production server
 npm start
 ```
 
-### Development
+## Project structure
 
-The app runs at `http://localhost:3000`
+```
+app/                Next.js App Router pages
+components/         Hive node, connection edge, particle layer, UI primitives
+lib/                Network layout helpers, animation easing curves
+public/             Static assets, hero imagery
+styles/             Global CSS + Tailwind config
+```
 
-## Design System
+## Roadmap
 
-### Colors
-- **Primary:** Solar Amber `#F59E0B`
-- **Accent:** Cyan `#06B6D4`
-- **Secondary:** Purple `#8B5CF6`
-- **Background:** Deep Black `#0A0A0F`
-
-### Animations
-All animations use Framer Motion with these patterns:
-- **Pulse:** Breathing glow effects
-- **Float:** Subtle vertical movement
-- **Orbit:** Circular motion paths
-- **Shimmer:** Gradient sweeps
+See [Issues](https://github.com/ZUES-ops-dot/thehiveai/issues) — real-time on-chain data binding, mobile gesture support, configurable hive themes, accessibility polish for reduced-motion preferences.
 
 ## License
 
-MIT License -
+MIT — see [LICENSE](LICENSE).
