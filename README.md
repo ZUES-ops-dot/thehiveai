@@ -73,4 +73,4 @@ All animations use Framer Motion with these patterns:
 
 ## License
 
-MIT License - Built for the Solana community 🚀
+MIT License -
