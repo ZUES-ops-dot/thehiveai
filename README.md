@@ -49,6 +49,8 @@ npm run dev
 
 Open <http://localhost:3000>.
 
+> Note: prefers-reduced-motion is not yet fully implemented.
+
 ### Build for production
 
 ```bash
