@@ -1,4 +1,4 @@
-# 🐝 HIVE AI — Development Plan
+# 🐝 HIVE AI -- Development Plan
 
 > "An animated, living Solana social intelligence hive."
 
@@ -20,14 +20,14 @@ Hive AI is a living, animated, multi-node brain that visualizes the X (Twitter) 
 ## Phase 2: Core Components
 
 ### Hive UI Components
-- [ ] `<HiveNode />` — Glowing, animated node
-- [ ] `<HiveClusterGraph />` — Moving force graph nodes
-- [ ] `<HiveGlowCard />` — Animated card wrapper with glow
-- [ ] `<HivePulseNumber />` — Count-up animation numbers
-- [ ] `<HiveSparkline />` — Animated line graph
-- [ ] `<HiveOrbitMenu />` — Circular animated navigation
-- [ ] `<HiveParticleField />` — Background particle animation
-- [ ] `<HiveHexagonFrame />` — Glowing hexagon borders
+- [ ] `<HiveNode />` -- Glowing, animated node
+- [ ] `<HiveClusterGraph />` -- Moving force graph nodes
+- [ ] `<HiveGlowCard />` -- Animated card wrapper with glow
+- [ ] `<HivePulseNumber />` -- Count-up animation numbers
+- [ ] `<HiveSparkline />` -- Animated line graph
+- [ ] `<HiveOrbitMenu />` -- Circular animated navigation
+- [ ] `<HiveParticleField />` -- Background particle animation
+- [ ] `<HiveHexagonFrame />` -- Glowing hexagon borders
 
 ### Data Components
 - [ ] `<TrendingNarrativeList />`
@@ -39,11 +39,11 @@ Hive AI is a living, animated, multi-node brain that visualizes the X (Twitter) 
 ## Phase 3: Mock + Verified Data Layer
 
 ### 3.1 Mock Sources (for UI scaffolding)
-- [ ] `mock/tweets.json` — Sample tweet data
-- [ ] `mock/accounts.json` — Influencer accounts
-- [ ] `mock/projects.json` — Solana projects
-- [ ] `mock/clusters.json` — Topic clusters
-- [ ] `mock/network.json` — Network graph data
+- [ ] `mock/tweets.json` -- Sample tweet data
+- [ ] `mock/accounts.json` -- Influencer accounts
+- [ ] `mock/projects.json` -- Solana projects
+- [ ] `mock/clusters.json` -- Topic clusters
+- [ ] `mock/network.json` -- Network graph data
 
 ### 3.2 Verifiable Events (Supabase + tracking engine)
 - [ ] Campaign joins (`participants`)
@@ -59,21 +59,21 @@ Hive AI is a living, animated, multi-node brain that visualizes the X (Twitter) 
 5. **Missions telemetry**: missions page fetches `missions_progress` once cron + aggregation exist (see §27).
 
 ### 3.4 Outstanding Live Data Tasks (Dec 6, 2025)
-- **Missions backend** — Create Supabase tables (`missions`, `mission_rewards`, `mission_progress`) plus `/api/missions` so the missions page can display real assignments, progress, completed counts, and badge unlocks instead of placeholders.
-- **Project Lens data model** — Introduce a `projects` table (or enrich `campaigns`) with sector/category, primary/secondary hashtags, sentiment aggregates, and mention velocity so the Project Lens grid can auto-fill analytics per project rather than reusing dashboard trending campaigns.
-- **Reward distribution execution** — Implement a scheduled job or RPC that uses `REWARD_CURVE` + MSP totals to compute payouts/credits so leaderboard rewards match the published distribution (Rank #1 30%, #2 15%, #3 10%, #4-10 25%, #11-50 20%).
-- **Narrative analytics persistence** — Store per-narrative keywords, contributor lists, sponsor pools, and funding stats so the Narratives Explorer cards pull live data instead of mock word clouds/metrics.
-- **Badges & profile stats** — Track badge awards, credits, and mission completions in Supabase and return them via `/api/user` so profile cards and missions counters no longer rely on hardcoded values (e.g., “Badges Earned”).
+- **Missions backend** -- Create Supabase tables (`missions`, `mission_rewards`, `mission_progress`) plus `/api/missions` so the missions page can display real assignments, progress, completed counts, and badge unlocks instead of placeholders.
+- **Project Lens data model** -- Introduce a `projects` table (or enrich `campaigns`) with sector/category, primary/secondary hashtags, sentiment aggregates, and mention velocity so the Project Lens grid can auto-fill analytics per project rather than reusing dashboard trending campaigns.
+- **Reward distribution execution** -- Implement a scheduled job or RPC that uses `REWARD_CURVE` + MSP totals to compute payouts/credits so leaderboard rewards match the published distribution (Rank #1 30%, #2 15%, #3 10%, #4-10 25%, #11-50 20%).
+- **Narrative analytics persistence** -- Store per-narrative keywords, contributor lists, sponsor pools, and funding stats so the Narratives Explorer cards pull live data instead of mock word clouds/metrics.
+- **Badges & profile stats** -- Track badge awards, credits, and mission completions in Supabase and return them via `/api/user` so profile cards and missions counters no longer rely on hardcoded values (e.g., “Badges Earned”).
 
 ### 3.5 Narrative Analytics Pipeline (in progress)
-1. **Schema** — `narrative_analytics` + `narrative_sponsors` tables (JSON fields for keywords, top_accounts, sponsor pools) with indexes/`updated_at` triggers. ✅ (Migration 0005)
-2. **Aggregation job** — Serverless function or cron task that:
+1. **Schema** -- `narrative_analytics` + `narrative_sponsors` tables (JSON fields for keywords, top_accounts, sponsor pools) with indexes/`updated_at` triggers. ✅ (Migration 0005)
+2. **Aggregation job** -- Serverless function or cron task that:
    - Fetches recent `post_events` per campaign and extracts hashtags/keywords.
    - Ranks top contributors from `participants` (MSP, followers) for “top_accounts”.
    - Pulls sponsor rows from `narrative_sponsors`.
    - Upserts synthesized payload into `narrative_analytics`.
-3. **API surface** — `/api/narratives/analytics` returns analytics per campaign (optionally scoped to connected accounts), falling back to on-demand recompute if stale.
-4. **UI wiring** — Narratives Explorer consumes the API to display live keywords, contributors, and sponsor pool insights for both active and trending campaigns.
+3. **API surface** -- `/api/narratives/analytics` returns analytics per campaign (optionally scoped to connected accounts), falling back to on-demand recompute if stale.
+4. **UI wiring** -- Narratives Explorer consumes the API to display live keywords, contributors, and sponsor pool insights for both active and trending campaigns.
 
 ## Phase 4: Core Pages (All Animated)
 
@@ -497,7 +497,7 @@ Control center for all hive effects:
 
 ---
 
-## 22. Narrative Economy v3 — Living Attention Economy
+## 22. Narrative Economy v3 -- Living Attention Economy
 
 > A living attention economy with project-funded narratives and creator-driven distribution. The Fortnite of narrative intelligence.
 
@@ -505,7 +505,7 @@ Control center for all hive effects:
 
 ### 22.1 Core Loop (Simple + Scalable)
 
-**Step 1 — Projects Infuse Money**
+**Step 1 -- Projects Infuse Money**
 Projects (crypto, AI, SaaS, etc.) allocate budget into Narrative Funding Pools.
 
 Example:
@@ -517,7 +517,7 @@ Narrative: "AI Agents Take Over Research"
 Total Pool: 9,000 HiveCredits
 ```
 
-**Step 2 — Creators Amplify Narratives**
+**Step 2 -- Creators Amplify Narratives**
 Creators earn **Mindshare Points (MSP)** by:
 - Posting content & threads
 - Sharing insights
@@ -527,7 +527,7 @@ Creators earn **Mindshare Points (MSP)** by:
 
 > MSP reflects **impact**, not volume.
 
-**Step 3 — Periodic Reward Distribution**
+**Step 3 -- Periodic Reward Distribution**
 
 | Leaderboard | Period | Weight |
 |-------------|--------|--------|
@@ -541,7 +541,7 @@ Why this works:
 - Big monthly/yearly prestige
 - All-time = legacy score
 
-**Step 4 — Fixed, Transparent Reward Curve**
+**Step 4 -- Fixed, Transparent Reward Curve**
 
 | Rank | Share |
 |------|-------|
@@ -557,7 +557,7 @@ Always predictable. Always fair.
 
 ### 22.2 Anti-Spam & Integrity System
 
-Mindshare is **not** generated by posting — it's generated by **impact**:
+Mindshare is **not** generated by posting -- it's generated by **impact**:
 
 | Signal | Description |
 |--------|-------------|
@@ -608,7 +608,7 @@ Mindshare is **not** generated by posting — it's generated by **impact**:
 
 ---
 
-### 22.5 Narrative Pools — Fully Refined
+### 22.5 Narrative Pools -- Fully Refined
 
 Each narrative displays:
 | Field | Description |
@@ -631,7 +631,7 @@ Each narrative displays:
 
 ---
 
-### 22.6 Mindshare Cluster (Social Graph) — Updated
+### 22.6 Mindshare Cluster (Social Graph) -- Updated
 
 Real-time visualization:
 - **Creator nodes** pulse when generating mindshare
@@ -766,7 +766,7 @@ interface LeaderboardEntry {
 
 ---
 
-## 23. Phase 3 — Advanced Features Roadmap
+## 23. Phase 3 -- Advanced Features Roadmap
 
 ### 23.1 Narrative Page (Full Page for Each Narrative Pool)
 Core hub for creator-narrative interaction:
@@ -905,13 +905,13 @@ Evolved personality system:
 - `components/hive/HiveTierBadge.tsx`
 
 ### Files Updated
-- `Navbar.tsx` — Missions link, streamlined routing
-- `app/narratives/page.tsx` — Funded pools section
-- `plan.md` + `project.md` — Documentation
+- `Navbar.tsx` -- Missions link, streamlined routing
+- `app/narratives/page.tsx` -- Funded pools section
+- `plan.md` + `project.md` -- Documentation
 
 ---
 
-## 24. Phase 4 — Platform Completion
+## 24. Phase 4 -- Platform Completion
 
 ### 24.1 Project Dashboard (B2B Funding Portal)
 Route: `/projects/dashboard`
@@ -969,8 +969,8 @@ AI-driven features:
 
 ## Current Status
 
-**Phase:** 6 — X Authentication & Campaign Tracking ✅
-**Next Step:** Phase 7 — Backend Integration (Cron Jobs, Real-time Updates)
+**Phase:** 6 -- X Authentication & Campaign Tracking ✅
+**Next Step:** Phase 7 -- Backend Integration (Cron Jobs, Real-time Updates)
 
 ---
 
@@ -1032,10 +1032,10 @@ Expose the full CreatorProfile metrics (streaks, narratives amplified, conversio
 - Missing pieces: `/api/user` does not return CreatorProfile fields, and the Profile UI has no sections to render them.
 
 ### Plan
-1. **Audit data flow (✅ Done)** — catalogued every CreatorProfile field, mapped each to its data source (Supabase participations + derived calculations).
-2. **Design UI & data mapping (✅ Done)** — hero stats row + Career Overview card + Performance/Streak/Rewards cards, with fallbacks for unauthenticated state.
-3. **Implementation (✅ Done)** — extended `/api/user` to return full CreatorProfile (glowTier, mspWeekly/Monthly/Yearly/Lifetime, streak, conversionScore, creditsEarned, narrativesAmplified), updated `useUserCampaignData` hook, and rendered new cards on `app/profile/page.tsx`.
-4. **Validation** — manual QA for authenticated vs unauthenticated users and docs updates once complete.
+1. **Audit data flow (✅ Done)** -- catalogued every CreatorProfile field, mapped each to its data source (Supabase participations + derived calculations).
+2. **Design UI & data mapping (✅ Done)** -- hero stats row + Career Overview card + Performance/Streak/Rewards cards, with fallbacks for unauthenticated state.
+3. **Implementation (✅ Done)** -- extended `/api/user` to return full CreatorProfile (glowTier, mspWeekly/Monthly/Yearly/Lifetime, streak, conversionScore, creditsEarned, narrativesAmplified), updated `useUserCampaignData` hook, and rendered new cards on `app/profile/page.tsx`.
+4. **Validation** -- manual QA for authenticated vs unauthenticated users and docs updates once complete.
 
 ### Open Questions
 - Should missing stats fall back to `lib/mock/creators.json`, or must all values be live from Supabase?
@@ -1058,12 +1058,12 @@ Expose the full CreatorProfile metrics (streaks, narratives amplified, conversio
 - Need URL query params (e.g., `?narrative=narrative-003&size=50`) to keep filters shareable.
 
 ### Implementation Plan
-1. **Data prep** — extend `lib/mock/creators.json` to include `narratives` array referencing narrative IDs; add helper to map narrative IDs → names.
-2. **Leaderboard filters** — add narrative selector (default `Global`, plus each funded narrative) and read URL query params using `useSearchParams`.
-3. **Size toggle fix** — ensure state updates are respected (e.g., by memoizing `sortedCreators` with `[activePeriod, leaderboardSize, selectedNarrative]`).
-4. **Deep links** — update `app/narrative/[id]/page.tsx` CTA to link to `/leaderboards?narrative=<id>`.
-5. **Copy updates** — header subtitle should reflect active filter (e.g., "MSP for Meme Liquidity Wars").
-6. **Validation** — confirm new query params work client-side, toggles update rows, and linking from narrative detail page lands on filtered leaderboard.
+1. **Data prep** -- extend `lib/mock/creators.json` to include `narratives` array referencing narrative IDs; add helper to map narrative IDs → names.
+2. **Leaderboard filters** -- add narrative selector (default `Global`, plus each funded narrative) and read URL query params using `useSearchParams`.
+3. **Size toggle fix** -- ensure state updates are respected (e.g., by memoizing `sortedCreators` with `[activePeriod, leaderboardSize, selectedNarrative]`).
+4. **Deep links** -- update `app/narrative/[id]/page.tsx` CTA to link to `/leaderboards?narrative=<id>`.
+5. **Copy updates** -- header subtitle should reflect active filter (e.g., "MSP for Meme Liquidity Wars").
+6. **Validation** -- confirm new query params work client-side, toggles update rows, and linking from narrative detail page lands on filtered leaderboard.
 
 ### Status
 - In Progress: Data review & sizing toggle investigation
@@ -1139,10 +1139,10 @@ Expose the full CreatorProfile metrics (streaks, narratives amplified, conversio
 
 ---
 
-## 28. Closed Beta Test — Connected Accounts System (Dec 2025)
+## 28. Closed Beta Test -- Connected Accounts System (Dec 2025)
 
 ### Objective
-Run a real-world test with 2-4 missions/projects and 20-30 X accounts to validate the entire tracking pipeline end-to-end. All data must be live from Supabase—no hardcoded values.
+Run a real-world test with 2-4 missions/projects and 20-30 X accounts to validate the entire tracking pipeline end-to-end. All data must be live from Supabase--no hardcoded values.
 
 ### Architecture
 
@@ -1222,7 +1222,7 @@ User Auth → /api/user → connectedAccounts[]
 
 ---
 
-## 29. Codebase Audit — Mock Data Usage (Dec 2025)
+## 29. Codebase Audit -- Mock Data Usage (Dec 2025)
 
 ### Mock Files in `lib/mock/`
 | File | Purpose | Status |
@@ -1288,10 +1288,10 @@ User Auth → /api/user → connectedAccounts[]
 
 ---
 
-## 30. Project Lens — Ecosystem Integrations (Dec 2025)
+## 30. Project Lens -- Ecosystem Integrations (Dec 2025)
 
 ### Objective
-Transform Project Lens from a campaign tracker into a portal to three external ecosystems: **Play Solana**, **Indie.fun**, and **Moddio**. Each panel surfaces read-only data and allows specific user actions—but **no narrative generation, paid prompts, or mission UI** on this page.
+Transform Project Lens from a campaign tracker into a portal to three external ecosystems: **Play Solana**, **Indie.fun**, and **Moddio**. Each panel surfaces read-only data and allows specific user actions--but **no narrative generation, paid prompts, or mission UI** on this page.
 
 ### ✅ Compliance Rules (ENFORCED)
 | Rule | Status |
@@ -1342,13 +1342,13 @@ CREATE TABLE integration_cache (
 |-------|--------|---------|-----------|
 | `/api/integrations/play-solana` | GET | Solana games, on-chain events, agent recommendations | 5 min |
 | `/api/integrations/indie-fun` | GET | Trending devlogs | 15 min |
-| `/api/integrations/indie-fun` | POST | Save devlog to bookmarks | — |
+| `/api/integrations/indie-fun` | POST | Save devlog to bookmarks | -- |
 | `/api/integrations/moddio` | GET | UGC projects + automation logs | 10 min |
-| `/api/integrations/moddio` | POST | Trigger automation run | — |
+| `/api/integrations/moddio` | POST | Trigger automation run | -- |
 
 #### Server Utilities
-- `lib/server/fetchWithCache.ts` — Supabase cache + in-memory fallback
-- `lib/server/rateLimit.ts` — Token bucket rate limiter (replace with Redis in prod)
+- `lib/server/fetchWithCache.ts` -- Supabase cache + in-memory fallback
+- `lib/server/rateLimit.ts` -- Token bucket rate limiter (replace with Redis in prod)
 
 #### React Query Hooks (`lib/hooks/useIntegrations.ts`)
 ```typescript
@@ -1420,16 +1420,16 @@ useTriggerAutomationMutation() // Invalidates moddio queries
 
 ---
 
-## 31. Project Lens — Live Explorer Mode (Dec 2025)
+## 31. Project Lens -- Live Explorer Mode (Dec 2025)
 
 ### Objective
-Transform Project Lens into a **live browser/explorer** where users can directly access and interact with Play Solana, Indie.fun, and Moddio inside HiveAI — like a built-in web browser with platform-specific theming.
+Transform Project Lens into a **live browser/explorer** where users can directly access and interact with Play Solana, Indie.fun, and Moddio inside HiveAI -- like a built-in web browser with platform-specific theming.
 
 ### Why Live Explorer?
-- **Static panels are boring** — users want to explore the actual platforms
-- **No 404 errors** — clicking "View" on a devlog shouldn't lead to broken mock URLs
-- **Immersive experience** — feels like you're inside the ecosystem, not just reading about it
-- **Real-time content** — always shows the latest from each platform
+- **Static panels are boring** -- users want to explore the actual platforms
+- **No 404 errors** -- clicking "View" on a devlog shouldn't lead to broken mock URLs
+- **Immersive experience** -- feels like you're inside the ecosystem, not just reading about it
+- **Real-time content** -- always shows the latest from each platform
 
 ### Architecture
 
@@ -1514,7 +1514,7 @@ const PLATFORMS = {
 ```
 
 ### Known Limitations
-1. **X-Frame-Options**: Some sites block iframe embedding — users can click "Open External" to view in new tab
+1. **X-Frame-Options**: Some sites block iframe embedding -- users can click "Open External" to view in new tab
 2. **Cross-origin navigation**: Cannot track URL changes inside iframe due to browser security
 3. **Authentication**: Users must log in separately on each platform
 
@@ -1543,7 +1543,7 @@ The previous static panel approach with mock data has been replaced. The followi
 
 ---
 
-## 32. Project Lens — Iframe Blocking Detection & Fallbacks (Dec 2025)
+## 32. Project Lens -- Iframe Blocking Detection & Fallbacks (Dec 2025)
 
 ### Problem
 Many sites send `X-Frame-Options: DENY` or `Content-Security-Policy: frame-ancestors` headers that prevent iframe embedding. Without detection, users see a blank iframe with no feedback.
@@ -1633,7 +1633,7 @@ const [blockReason, setBlockReason] = useState<string | null>(null)
 
 ---
 
-## 33. Project Lens — Inline Mirror + Top-Level Actions Bridge (Dec 2025)
+## 33. Project Lens -- Inline Mirror + Top-Level Actions Bridge (Dec 2025)
 
 ### Problem
 Indie.fun blocks iframe embedding AND requires Phantom wallet for actions. Wallets break inside iframes due to:

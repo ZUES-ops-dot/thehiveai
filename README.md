@@ -1,4 +1,4 @@
-# Hive AI — Animated Solana Network Visualization
+# Hive AI -- Animated Solana Network Visualization
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=nextdotjs)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
@@ -6,7 +6,7 @@
 ![Radix UI](https://img.shields.io/badge/Radix-UI-161618)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-> A living, animated visualization of the Solana ecosystem rendered as a glowing hive of nodes — pulse animations, reactive backgrounds, smooth transitions, and motion-everywhere UX. Built to make ecosystem mapping feel alive.
+> A living, animated visualization of the Solana ecosystem rendered as a glowing hive of nodes -- pulse animations, reactive backgrounds, smooth transitions, and motion-everywhere UX. Built to make ecosystem mapping feel alive.
 
 **[Live Demo](#)** · **[Stack](#tech-stack)** · **[Quick Start](#quick-start)**
 
@@ -18,13 +18,13 @@ Most ecosystem maps are static infographics that age the day they ship. Hive AI 
 
 ## Highlights
 
-- **Animated hive nodes** — pulse animations driven by actual network activity
-- **Reactive connections** — edges glow and animate when entities interact
-- **Floating particle system** — `tsparticles` background layer for ambient motion
-- **Reactive gradient backgrounds** — color shifts respond to scroll position and active section
-- **Motion everywhere** — Framer Motion-driven hover, page-transition, and entrance animations
-- **Radix-based primitives** — accessible dialogs, dropdowns, tabs, tooltips, scroll-areas
-- **Dark-first design** — tuned for OLED panels and ambient lighting
+- **Animated hive nodes** -- pulse animations driven by actual network activity
+- **Reactive connections** -- edges glow and animate when entities interact
+- **Floating particle system** -- `tsparticles` background layer for ambient motion
+- **Reactive gradient backgrounds** -- color shifts respond to scroll position and active section
+- **Motion everywhere** -- Framer Motion-driven hover, page-transition, and entrance animations
+- **Radix-based primitives** -- accessible dialogs, dropdowns, tabs, tooltips, scroll-areas
+- **Dark-first design** -- tuned for OLED panels and ambient lighting
 
 ## Tech stack
 
@@ -68,8 +68,8 @@ styles/             Global CSS + Tailwind config
 
 ## Roadmap
 
-See [Issues](https://github.com/ZUES-ops-dot/thehiveai/issues) — real-time on-chain data binding, mobile gesture support, configurable hive themes, accessibility polish for reduced-motion preferences.
+See [Issues](https://github.com/ZUES-ops-dot/thehiveai/issues) -- real-time on-chain data binding, mobile gesture support, configurable hive themes, accessibility polish for reduced-motion preferences.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT -- see [LICENSE](LICENSE).
