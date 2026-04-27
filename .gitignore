@@ -48,3 +48,9 @@ next-env.d.ts
 data/
 persona-audit.json
 .env*.local
+
+# Browser profile cache - never commit (contains scraped third-party API keys)
+scraper/.puppeteer_profile/
+.puppeteer_profile/
+*.puppeteer_profile/
+
